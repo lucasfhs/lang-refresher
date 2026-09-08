@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { basicSetup } from "codemirror";
 import { indentWithTab } from "@codemirror/commands";
 import { python } from "@codemirror/lang-python";
-import { EditorState } from "@codemirror/state";
+import { EditorState, Prec } from "@codemirror/state";
 import { EditorView, keymap } from "@codemirror/view";
 import { oneDark } from "@codemirror/theme-one-dark";
 
@@ -37,11 +37,11 @@ export function CodeEditor({ value, onChange, onRun, onSave }: Props) {
           ".cm-activeLine": { backgroundColor: "#131c2b" },
           ".cm-activeLineGutter": { backgroundColor: "#172133" },
         }),
-        keymap.of([
+        Prec.high(keymap.of([
           indentWithTab,
-          { key: "Mod-Enter", run: () => { callbacks.current.onRun(); return true; } },
-          { key: "Mod-s", run: () => { callbacks.current.onSave(); return true; } },
-        ]),
+          { key: "Ctrl-Enter", mac: "Cmd-Enter", preventDefault: true, run: () => { callbacks.current.onRun(); return true; } },
+          { key: "Ctrl-s", mac: "Cmd-s", preventDefault: true, run: () => { callbacks.current.onSave(); return true; } },
+        ])),
         EditorView.updateListener.of((update) => {
           if (update.docChanged) callbacks.current.onChange(update.state.doc.toString());
         }),

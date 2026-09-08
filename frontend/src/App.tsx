@@ -19,6 +19,7 @@ export default function App() {
   const [saved, setSaved] = useState(true);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const runningRef = useRef(false);
 
   const loadState = useCallback((next: SessionState) => {
     setState(next);
@@ -64,7 +65,8 @@ export default function App() {
   }, [state]);
 
   const execute = useCallback(async (validate: boolean) => {
-    if (running) return;
+    if (runningRef.current) return;
+    runningRef.current = true;
     setRunning(true);
     setValidating(validate);
     setResult(null);
@@ -76,10 +78,24 @@ export default function App() {
     } catch (err) {
       setError(readError(err));
     } finally {
+      runningRef.current = false;
       setRunning(false);
       setValidating(false);
     }
-  }, [running]);
+  }, []);
+
+  useEffect(() => {
+    const handleRunShortcut = (event: KeyboardEvent) => {
+      if (settingsOpen || event.repeat) return;
+      if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
+        event.preventDefault();
+        event.stopPropagation();
+        void execute(false);
+      }
+    };
+    window.addEventListener("keydown", handleRunShortcut, { capture: true });
+    return () => window.removeEventListener("keydown", handleRunShortcut, { capture: true });
+  }, [execute, settingsOpen]);
 
   const navigate = async (delta: number) => {
     if (!state) return;
