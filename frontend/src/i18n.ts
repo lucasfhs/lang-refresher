@@ -36,6 +36,8 @@ export const copy = {
     close: "Fechar",
     restartConfirm: "Reiniciar a sessão? O progresso e todos os rascunhos serão apagados.",
     loading: "Carregando Python Core Refresher…",
+    resizeExercise: "Redimensionar painel do exercício",
+    resizeTerminal: "Redimensionar editor e terminal",
   },
   en: {
     settings: "Settings",
@@ -74,6 +76,8 @@ export const copy = {
     close: "Close",
     restartConfirm: "Restart the session? Progress and all drafts will be deleted.",
     loading: "Loading Python Core Refresher…",
+    resizeExercise: "Resize exercise panel",
+    resizeTerminal: "Resize editor and terminal",
   },
 } as const;
 

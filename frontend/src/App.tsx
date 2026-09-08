@@ -5,6 +5,7 @@ import { Workspace } from "./Workspace";
 import { SettingsModal } from "./SettingsModal";
 import { getCopy } from "./i18n";
 import { Settings } from "lucide-react";
+import { ResizeHandle } from "./ResizeHandle";
 import type { ExecutionResult, SessionState } from "./types";
 import "./styles.css";
 
@@ -20,6 +21,7 @@ export default function App() {
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const runningRef = useRef(false);
+  const [exerciseWidth, setExerciseWidth] = useState(() => clampExerciseWidth(readStoredNumber("layout.exerciseWidth", 430)));
 
   const loadState = useCallback((next: SessionState) => {
     setState(next);
@@ -39,6 +41,16 @@ export default function App() {
     const timer = window.setInterval(() => setElapsedSeconds((value) => value + 1), 1000);
     return () => window.clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    const handleResize = () => setExerciseWidth((width) => clampExerciseWidth(width));
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    storeNumber("layout.exerciseWidth", exerciseWidth);
+  }, [exerciseWidth]);
 
   useEffect(() => {
     if (!state || saved) return;
@@ -129,12 +141,38 @@ export default function App() {
   }
 
   return (
-    <div className="app-shell">
+    <div className="app-shell" style={{ gridTemplateColumns: `${exerciseWidth}px 7px minmax(0, 1fr)` }}>
       <ExercisePanel state={{ ...state, elapsedSeconds }} busy={running} onPrevious={() => navigate(-1)} onNext={() => navigate(1)} onComplete={() => advance("complete")} onSkip={() => advance("skip")} onRestart={restart} onSettings={() => setSettingsOpen(true)} />
+      <ResizeHandle orientation="vertical" ariaLabel={getCopy(state.locale).resizeExercise} onDrag={(delta) => setExerciseWidth((width) => clampExerciseWidth(width + delta))} onReset={() => setExerciseWidth(clampExerciseWidth(430))} />
       <Workspace state={state} code={code} result={result} error={error} running={running} validating={validating} saved={saved} onCodeChange={onCodeChange} onRun={() => execute(false)} onValidate={() => execute(true)} onCancel={() => api.cancel()} onSave={save} />
       {settingsOpen && <SettingsModal locale={state.locale} onChange={changeLanguage} onClose={() => setSettingsOpen(false)} />}
     </div>
   );
+}
+
+function clampExerciseWidth(width: number) {
+  const viewport = window.innerWidth;
+  const minimum = viewport < 800 ? 260 : 300;
+  const workspaceMinimum = viewport < 800 ? 330 : 420;
+  const maximum = Math.max(minimum, viewport - workspaceMinimum - 7);
+  return Math.round(Math.min(maximum, Math.max(minimum, width)));
+}
+
+function readStoredNumber(key: string, fallback: number) {
+  try {
+    const value = Number(window.localStorage.getItem(key));
+    return Number.isFinite(value) && value > 0 ? value : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function storeNumber(key: string, value: number) {
+  try {
+    window.localStorage.setItem(key, String(value));
+  } catch {
+    // O layout continua funcional quando o armazenamento do WebView está indisponível.
+  }
 }
 
 function readError(error: unknown) {

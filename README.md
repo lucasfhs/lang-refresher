@@ -32,6 +32,9 @@ Atalhos principais:
 - `Ctrl+Enter`: executar
 - `Ctrl+S`: salvar o rascunho
 - atalhos nativos do editor: selecionar tudo, copiar, colar, desfazer e refazer
+- arraste o divisor vertical para redimensionar o enunciado
+- arraste o divisor horizontal para redimensionar editor e terminal
+- use as setas quando um divisor estiver focado; clique duas vezes para restaurar o tamanho padrão
 
 ## Idiomas
 
