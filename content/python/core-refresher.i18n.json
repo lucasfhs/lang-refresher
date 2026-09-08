@@ -1,0 +1,414 @@
+{
+  "track_id": "python-core-refresher",
+  "locale": "en",
+  "title": "Python Core Refresher",
+  "description": "A hands-on session to regain fluency with Python syntax and essential features.",
+  "exercises": {
+    "python-fundamentals-001": {
+      "category": "fundamentals",
+      "title": "Essential values",
+      "topic": "Variables, types, comments, and None",
+      "objective": "Reactivate assignment syntax and fundamental types.",
+      "description": "Create variables named nome, idade, altura, ativo, and observacao for a name, age, height, active status, and a note with no value. Print each value together with its type.",
+      "requirements": ["Include a single-line comment", "Use str, int, float, bool, and None", "Use type() when printing the types"],
+      "example_output": "Ada <class 'str'>\n36 <class 'int'>\n1.65 <class 'float'>\nTrue <class 'bool'>\nNone <class 'NoneType'>"
+    },
+    "python-fundamentals-002": {
+      "category": "fundamentals",
+      "title": "Operators in action",
+      "topic": "Arithmetic, comparison, logical, identity, and membership operators",
+      "objective": "Review the main operator families in a short snippet.",
+      "description": "Given a = 14, b = 5, numeros = [5, 10, 14], and valor = None, calculate floor division and remainder. Then print expressions using comparisons, and/or/not, in, and is None.",
+      "requirements": ["Use // and %", "Use at least one logical operator", "Use in and is None"],
+      "example_output": "floor division: 2\nremainder: 4\ncomparison: True\nlogic: True\nmembership: True\nidentity: True"
+    },
+    "python-strings-001": {
+      "category": "strings",
+      "title": "Text slices",
+      "topic": "Indexing and slicing",
+      "objective": "Recall positive and negative indexes and slices.",
+      "description": "Using the existing texto string, print the first character, the last one, characters from index 1 through 4, and the reversed word.",
+      "requirements": ["Use a negative index", "Use slicing", "Reverse with a -1 step"],
+      "example_output": "l\nm\ning\nmegaugnil"
+    },
+    "python-strings-002": {
+      "category": "strings",
+      "title": "Clean and rebuild",
+      "topic": "strip, split, replace, and join",
+      "objective": "Review the method chain commonly used in text processing.",
+      "description": "Normalize the string '  Go,Python,Rust  ': remove outer spaces, replace Go with C, split on commas, and join the items with ' | '.",
+      "requirements": ["Use strip(), replace(), split(), and join()", "Print 'C | Python | Rust'"],
+      "example_output": "C | Python | Rust"
+    },
+    "python-strings-003": {
+      "category": "strings",
+      "title": "Formatted summary",
+      "topic": "Type conversion and f-strings",
+      "objective": "Practice explicit conversion and numeric formatting.",
+      "description": "Convert preco_texto and quantidade to numbers, calculate the total, and print an f-string with produto in uppercase and the total with two decimal places.",
+      "requirements": ["Use float() and int()", "Use upper()", "Format the total with two decimal places"],
+      "example": "KEYBOARD — total: $399.80",
+      "example_output": "KEYBOARD — total: $399.80"
+    },
+    "python-lists-001": {
+      "category": "collections",
+      "title": "List mutation",
+      "topic": "append, extend, insert, remove, and pop",
+      "objective": "Recall the most frequent mutable list operations.",
+      "description": "Starting with numeros = [2, 3], insert 1 at the beginning, append 4, extend with 5 and 6, remove 3, and pop the last item. Store the popped item in ultimo and print both values.",
+      "requirements": ["Use insert, append, extend, remove, and pop", "At the end, numbers must be [1, 2, 4, 5]"],
+      "example_output": "[1, 2, 4, 5]\n6"
+    },
+    "python-lists-002": {
+      "category": "collections",
+      "title": "Sort without losing the original",
+      "topic": "sorted, sort, reverse, and slicing",
+      "objective": "Distinguish operations that return a collection from those that mutate it.",
+      "description": "Create a sorted version of valores without changing the original. Then sort valores in place in descending order and print a copy of its first three items.",
+      "requirements": ["Use sorted() for the first version", "Use sort(reverse=True) on the original", "Use slicing for the first three items"],
+      "example_output": "sorted: [1, 3, 5, 8, 9]\noriginal descending: [9, 8, 5, 3, 1]\nfirst three: [9, 8, 5]"
+    },
+    "python-tuples-001": {
+      "category": "collections",
+      "title": "Flexible unpacking",
+      "topic": "Tuples, unpacking, and starred expressions",
+      "objective": "Review tuples, unpacking, and capturing middle values.",
+      "description": "Unpack the tuple ('Ana', 31, 'Recife', 'PE') into name, age, and a remaining variable containing city and state. Swap name and age in one assignment and print everything.",
+      "requirements": ["Use *remaining while unpacking", "Swap without a temporary variable", "Do not try to mutate the tuple"],
+      "example_output": "31 Ana ['Recife', 'PE']"
+    },
+    "python-dicts-001": {
+      "category": "collections",
+      "title": "Dictionary record",
+      "topic": "Reading, updating, get, and removal",
+      "objective": "Review the basic dict manipulation cycle.",
+      "description": "In the usuario dictionary, update idade, add the cidade key, read email with get using 'não informado' as the default, and remove ativo with pop.",
+      "requirements": ["Assign through a key", "Use get with a default value", "Use pop and store the removed value"],
+      "example_output": "email: não informado\nremoved ativo: True\n{'nome': 'Bia', 'idade': 28, 'cidade': 'Recife'}"
+    },
+    "python-dicts-002": {
+      "category": "collections",
+      "title": "Three views of a dict",
+      "topic": "keys, values, items, and iteration",
+      "objective": "Regain familiarity with dictionary views and pair iteration.",
+      "description": "Print the keys and values of estoque separately. Then iterate over the pairs and print lines such as 'caneta: 12'.",
+      "requirements": ["Use keys(), values(), and items()", "Unpack key and value in the for loop"],
+      "example_output": "dict_keys(['caneta', 'caderno', 'borracha'])\ndict_values([12, 5, 8])\ncaneta: 12\ncaderno: 5\nborracha: 8"
+    },
+    "python-sets-001": {
+      "category": "collections",
+      "title": "Skill sets",
+      "topic": "set, union, intersection, and difference",
+      "objective": "Practice sets and duplicate removal.",
+      "description": "Convert both skill lists to sets and show all unique skills, common skills, and skills exclusive to the first person.",
+      "requirements": ["Remove duplicates with set()", "Use |, &, and -", "Print sorted results"],
+      "example_output": "unique: ['git', 'go', 'python', 'sql']\ncommon: ['git', 'sql']\nAna only: ['python']"
+    },
+    "python-flow-001": {
+      "category": "control flow",
+      "title": "Range and label",
+      "topic": "if, elif, else, and conditional expressions",
+      "objective": "Review branching and compact conditional expressions.",
+      "description": "Classify nota as 'excelente' (>= 9), 'aprovado' (>= 7), or 'revisar'. In another variable, use a conditional expression to produce 'par' or 'ímpar' for numero.",
+      "requirements": ["Use if/elif/else", "Use a conditional expression", "Print both labels"],
+      "example_output": "aprovado\nímpar"
+    },
+    "python-flow-002": {
+      "category": "control flow",
+      "title": "Dispatch with match",
+      "topic": "match/case and alternative patterns",
+      "objective": "Reactivate pattern matching syntax.",
+      "description": "Create classificar_status(codigo) with match/case: 200 returns 'ok'; 400 or 404 returns 'erro do cliente'; 500 returns 'erro do servidor'; anything else returns 'desconhecido'.",
+      "requirements": ["Use match/case", "Combine 400 and 404 with |", "Include the wildcard case"],
+      "example_output": "erro do cliente"
+    },
+    "python-loops-001": {
+      "category": "loops",
+      "title": "Human-friendly indexes",
+      "topic": "for, range, and enumerate",
+      "objective": "Review iteration with numeric sequences and indexes.",
+      "description": "Print the squares from 1 through 5 using range. Then enumerate the languages starting at 1 in the format '1. Python'.",
+      "requirements": ["Use range(1, 6)", "Use enumerate(..., start=1)"],
+      "example_output": "1\n4\n9\n16\n25\n1. Python\n2. Go\n3. Rust"
+    },
+    "python-loops-002": {
+      "category": "loops",
+      "title": "Parallel traversal",
+      "topic": "zip and unpacking",
+      "objective": "Recall how to traverse collections in parallel.",
+      "description": "Traverse names and ages together and print sentences such as 'Lia is 29 years old'. Then create a dictionary by combining both lists.",
+      "requirements": ["Use zip() in both steps", "Unpack values in the for loop", "Create the dict without manual indexes"],
+      "example_output": "Lia is 29 years old\nRui is 34 years old\nCaio is 26 years old\n{'Lia': 29, 'Rui': 34, 'Caio': 26}"
+    },
+    "python-loops-003": {
+      "category": "loops",
+      "title": "Controlled search",
+      "topic": "while, break, continue, and loop else",
+      "objective": "Review explicit repetition control and the loop else clause.",
+      "description": "With contador from 0 to 9, skip even numbers with continue, search for alvo 7, and stop with break. Use else on the loop to print 'não encontrado' if the target is absent.",
+      "requirements": ["Use while", "Use continue and break", "Include an else clause on the while loop"],
+      "example_output": "1\n3\n5\nfound: 7"
+    },
+    "python-comprehensions-001": {
+      "category": "comprehensions",
+      "title": "Even squares",
+      "topic": "List comprehension with a filter",
+      "objective": "Review transformation and filtering in one expression.",
+      "description": "Given numeros, produce quadrados_pares containing the square of only the even numbers.",
+      "requirements": ["Use a list comprehension", "Do not use an explicit for loop", "Print the final result"],
+      "example_output": "[4, 16, 36]"
+    },
+    "python-comprehensions-002": {
+      "category": "comprehensions",
+      "title": "Compact mappings and sets",
+      "topic": "Dict and set comprehensions",
+      "objective": "Practice comprehensions with other collection types.",
+      "description": "Create a dictionary mapping each word to its length, only for words with at least 5 letters. Also create a set containing the uppercase first letters.",
+      "requirements": ["Use a dict comprehension with a filter", "Use a set comprehension", "Do not use explicit loops"],
+      "example_output": "{'python': 6, 'kotlin': 6}\n{'G', 'J', 'K', 'P', 'R'}"
+    },
+    "python-functions-001": {
+      "category": "functions",
+      "title": "Configurable greeting",
+      "topic": "Default parameters and keyword arguments",
+      "objective": "Review definitions, returns, defaults, and keyword calls.",
+      "description": "Create saudacao(nome, prefixo='Olá') returning a formatted sentence. Call it once with only nome and once using prefixo as a keyword argument.",
+      "requirements": ["Return instead of only printing", "Define a default value", "Make a call with a keyword argument"],
+      "example_output": "Olá, Ada!\nBem-vindo, Linus!"
+    },
+    "python-functions-002": {
+      "category": "functions",
+      "title": "Variable arguments",
+      "topic": "*args and **kwargs",
+      "objective": "Reactivate positional and keyword argument capture.",
+      "description": "Create somar(*args), which returns the sum, and descrever(**kwargs), which returns a list of 'key=value' strings sorted by key.",
+      "requirements": ["Use *args and sum()", "Use **kwargs and items()", "Sort the keys"],
+      "example_output": "10\n['nome=Python', 'versao=3']"
+    },
+    "python-functions-003": {
+      "category": "functions",
+      "title": "Two results and scope",
+      "topic": "Multiple returns, global, and nonlocal",
+      "objective": "Review tuple returns and scope rules.",
+      "description": "Create limites(valores), returning minimum and maximum for unpacking. Then create fabrica_contador() with a local variable and an inner function that uses nonlocal to increment it.",
+      "requirements": ["Return two values", "Unpack the return value", "Use nonlocal in the inner function"],
+      "example_output": "minimum: 2, maximum: 14\n1\n2\n3"
+    },
+    "python-functions-004": {
+      "category": "functions",
+      "title": "Functions as data",
+      "topic": "lambda, map, and filter",
+      "objective": "Review functions as objects and basic functional operations.",
+      "description": "Store a doubling lambda in a variable. Use filter to keep positive values and map to double them. Convert the final result to a list.",
+      "requirements": ["Use lambda", "Use filter() and map()", "Pass functions as arguments"],
+      "example_output": "[4, 10]"
+    },
+    "python-iteration-001": {
+      "category": "iteration",
+      "title": "Under the for loop",
+      "topic": "Iterables, iter, next, and StopIteration",
+      "objective": "Recall the iteration protocol explicitly.",
+      "description": "Get an iterator from the cores list with iter(), consume three values with next(), and handle StopIteration when trying to read a fourth value.",
+      "requirements": ["Use iter()", "Use next()", "Catch StopIteration"],
+      "example_output": "azul\nverde\nâmbar\nend of iterator"
+    },
+    "python-iteration-002": {
+      "category": "iteration",
+      "title": "Countdown generator",
+      "topic": "Generators and yield",
+      "objective": "Review lazy value creation and consumption.",
+      "description": "Create contagem_regressiva(inicio), a generator that yields numbers down to 1 and then the string 'já'. Demonstrate consuming it in a for loop.",
+      "requirements": ["Use yield", "Do not build a list inside the function", "Update the counter after each yield"],
+      "example_output": "3\n2\n1\njá"
+    },
+    "python-errors-001": {
+      "category": "errors",
+      "title": "Protected conversion",
+      "topic": "try, multiple except clauses, else, and finally",
+      "objective": "Review the complete exception-handling flow.",
+      "description": "Create dividir(texto_a, texto_b). Convert the strings and divide, handle ValueError and ZeroDivisionError separately, return the result in else, and print 'fim' in finally.",
+      "requirements": ["Use two specific except clauses", "Use else", "Use finally"],
+      "example_output": "fim\n2.5"
+    },
+    "python-errors-002": {
+      "category": "errors",
+      "title": "Domain error",
+      "topic": "raise and custom exceptions",
+      "objective": "Review how to express domain-specific failures.",
+      "description": "Create SaldoInsuficiente inheriting from Exception and a sacar(saldo, valor) function. Raise the exception if valor exceeds saldo; otherwise return the new balance.",
+      "requirements": ["Create an exception class", "Use raise", "Include balance and amount in the message"],
+      "example_output": "new balance: 65\nSaldo insuficiente: saldo=10, valor=20"
+    },
+    "python-files-001": {
+      "category": "files",
+      "title": "Temporary journal",
+      "topic": "open, with, writing, appending, and reading",
+      "objective": "Review the safe text-file manipulation cycle.",
+      "description": "Create notes.txt with two lines using with and write mode. Open it again in append mode, add one line, then read and print the complete contents.",
+      "requirements": ["Use with for every open", "Use w, a, and r modes", "Specify encoding='utf-8'"],
+      "example_output": "first note\nsecond note\nthird note"
+    },
+    "python-files-002": {
+      "category": "files",
+      "title": "Modern paths",
+      "topic": "pathlib basics",
+      "objective": "Reactivate the object-oriented path API.",
+      "description": "With pathlib.Path, create the data folder, write 'Python\\nGo\\n' to languages.txt, read it, and print its name, suffix, and lines.",
+      "requirements": ["Use Path and the / operator", "Use mkdir(exist_ok=True)", "Use write_text and read_text with UTF-8"],
+      "example_output": "languages.txt\n.txt\n['Python', 'Go']"
+    },
+    "python-modules-001": {
+      "category": "modules",
+      "title": "Imports and entry point",
+      "topic": "import, from import, aliases, and __name__",
+      "objective": "Review import styles and entry-point protection.",
+      "description": "Import PI from constantes.py with an alias and import area_circulo. Create main() that prints the area for radius 2 and call it only under if __name__ == '__main__'.",
+      "requirements": ["Use from ... import with an alias", "Use a module import", "Protect the main call with __name__"],
+      "example_output": "12.56636"
+    },
+    "python-oop-001": {
+      "category": "object-oriented programming",
+      "title": "Accounts in motion",
+      "topic": "Classes, __init__, attributes, and methods",
+      "objective": "Review the minimum structure of a useful class.",
+      "description": "Create Conta with titular and an initial saldo of zero. Implement depositar(valor), which changes and returns saldo. Instantiate two accounts and make different deposits.",
+      "requirements": ["Define __init__", "Use self in attributes and methods", "Create two independent instances"],
+      "example_output": "Ana: 100\nBeto: 40"
+    },
+    "python-oop-002": {
+      "category": "object-oriented programming",
+      "title": "User factory",
+      "topic": "Class attributes, classmethod, and staticmethod",
+      "objective": "Distinguish class state from utilities associated with the class.",
+      "description": "Create Usuario with the class attribute total = 0. Increment it in __init__, implement from_email(cls, email) using the part before @ as nome, and add an email_valido(email) static method.",
+      "requirements": ["Use @classmethod with cls", "Use @staticmethod", "Update the class attribute"],
+      "example_output": "ada\nTrue\ntotal: 1"
+    },
+    "python-oop-003": {
+      "category": "object-oriented programming",
+      "title": "Controlled temperature",
+      "topic": "property and encapsulation by convention",
+      "objective": "Review internal attributes and validated properties.",
+      "description": "Create Temperatura storing _celsius. Expose celsius with @property and a setter; reject values below -273.15 with ValueError. Add a read-only fahrenheit property.",
+      "requirements": ["Use the _celsius attribute", "Create getter and setter decorators", "Convert to Fahrenheit"],
+      "example_output": "25 °C\n77.0 °F\nTemperature below absolute zero"
+    },
+    "python-oop-004": {
+      "category": "object-oriented programming",
+      "title": "Specialization with super",
+      "topic": "Inheritance, overriding, and super",
+      "objective": "Review extending behavior through inheritance.",
+      "description": "Create Animal with nome and falar(). Create Cachorro(Animal), call super().__init__, override falar to return 'au', and add apresentar using the inherited nome.",
+      "requirements": ["Declare inheritance explicitly", "Use super()", "Override speak()"],
+      "example_output": "au\nRex diz au"
+    },
+    "python-oop-005": {
+      "category": "object-oriented programming",
+      "title": "Order through composition",
+      "topic": "Object composition",
+      "objective": "Recall composition as an alternative to inheritance.",
+      "description": "Create Item(nome, preco) and Pedido(itens). Pedido must receive items, support adicionar(item), and calculate total() by summing precos.",
+      "requirements": ["Order must contain Item objects", "Use append in the add method", "Use sum in the total method"],
+      "example_output": "total: 149.80"
+    },
+    "python-oop-006": {
+      "category": "object-oriented programming",
+      "title": "Objects that speak Python",
+      "topic": "__str__, __repr__, __eq__, and __len__",
+      "objective": "Review special methods that integrate objects with built-ins.",
+      "description": "Create Produto(nome, preco, tags). Make str show 'nome — R$ preco', repr return recreatable code, equality compare nome and preco, and len return the number of tags.",
+      "requirements": ["Implement all four special methods", "Return NotImplemented from __eq__ for another type", "Format the price with two decimal places"],
+      "example_output": "Mouse — R$ 99.90\nProduto('Mouse', 99.9, ['usb', 'óptico'])\nTrue\n2"
+    },
+    "python-structures-001": {
+      "category": "useful structures",
+      "title": "Declarative data",
+      "topic": "dataclass and Enum",
+      "objective": "Review two standard structures for simple modeling.",
+      "description": "Create Status(Enum) with PENDENTE and CONCLUIDO. Create the Tarefa dataclass with titulo, a default status of PENDENTE, and tags using default_factory=list.",
+      "requirements": ["Use @dataclass", "Use Enum and auto()", "Avoid a direct mutable-list default"],
+      "example_output": "Tarefa(titulo='Review Python', status=<Status.PENDENTE: 1>, tags=[])"
+    },
+    "python-language-001": {
+      "category": "language features",
+      "title": "Call decorator",
+      "topic": "Decorators and functools.wraps",
+      "objective": "Review nested functions and controlled function replacement.",
+      "description": "Create @registrar that prints the function name before calling it and preserves metadata with wraps. Apply it to multiplicar(a, b).",
+      "requirements": ["The wrapper accepts *args and **kwargs", "Use functools.wraps", "Return the original result"],
+      "example_output": "calling multiplicar\n42"
+    },
+    "python-language-002": {
+      "category": "language features",
+      "title": "Your own context",
+      "topic": "Context managers",
+      "objective": "Review the protocol used by the with statement.",
+      "description": "Create Temporizador with __enter__ and __exit__. On entry, store time.perf_counter(); on exit, print the elapsed time. Use it in a with block.",
+      "requirements": ["Implement __enter__ and __exit__", "Return self from __enter__", "Do not suppress exceptions"],
+      "example_output": "block executed\nelapsed: 0.0012s"
+    },
+    "python-language-003": {
+      "category": "language features",
+      "title": "Lightweight contracts",
+      "topic": "Type hints, isinstance, and type",
+      "objective": "Reactivate common annotations without confusing them with automatic validation.",
+      "description": "Create media(valores: list[float]) -> float. Use isinstance to require a list, reject other types with TypeError, and show the difference between type(x) is int and isinstance(x, int) using True.",
+      "requirements": ["Use modern annotations", "Use isinstance for validation", "Print both checks for True"],
+      "example_output": "average: 7.5\ntype(True) is int: False\nisinstance(True, int): True"
+    },
+    "python-language-004": {
+      "category": "language features",
+      "title": "Capture and advanced slices",
+      "topic": "Walrus operator and advanced slicing",
+      "objective": "Review assignment expressions and slices with a step.",
+      "description": "Use := inside an if to store the length of dados and print it when there are at least 5 items. Then get even-indexed items in reverse order with one slice.",
+      "requirements": ["Use the := operator", "Use a slice with a negative step", "Do not use loops"],
+      "example_output": "10 items\n[8, 6, 4, 2, 0]"
+    },
+    "python-builtins-001": {
+      "category": "built-ins",
+      "title": "Native toolbox",
+      "topic": "len, sum, min, max, sorted, reversed, any, and all",
+      "objective": "Recall built-ins that replace common manual loops.",
+      "description": "For valores, store quantidade, total, menor, maior, crescente, and inversa. Also store tem_negativo and todos_inteiros.",
+      "requirements": ["Use all eight listed built-ins", "Convert reversed to a list", "Use generator expressions with any and all"],
+      "example_output": "count: 5\ntotal: 25\nminimum/maximum: -2 11\nascending: [-2, 3, 5, 8, 11]\nreverse: [3, 11, 5, -2, 8]\nTrue\nTrue"
+    },
+    "python-stdlib-001": {
+      "category": "standard library",
+      "title": "Batteries-included numbers",
+      "topic": "math and random",
+      "objective": "Review numeric operations and reproducible randomness.",
+      "description": "Use math to calculate the square root of 81, ceiling of 4.2, and factorial of 5. Use a local random.Random(42) to draw an integer from 1 to 10 and choose a color.",
+      "requirements": ["Import math as a module", "Use Random with a seed without changing global state", "Print every result"],
+      "example_output": "root: 9.0\nceiling: 5\nfactorial: 120\ndraw: 2\ncolor: blue"
+    },
+    "python-stdlib-002": {
+      "category": "standard library",
+      "title": "Serialized dates",
+      "topic": "datetime and json",
+      "objective": "Review dates, deltas, and JSON serialization.",
+      "description": "Create the date 2025-01-15, add 30 days, and build dados with inicio and fim in ISO format. Serialize it to texto_json with json.dumps and restore it to recuperado with json.loads.",
+      "requirements": ["Use date and timedelta", "Use isoformat()", "Use dumps and loads"],
+      "example_output": "{\"inicio\": \"2025-01-15\", \"fim\": \"2025-02-14\"}\n{'inicio': '2025-01-15', 'fim': '2025-02-14'}"
+    },
+    "python-stdlib-003": {
+      "category": "standard library",
+      "title": "Counting and grouping",
+      "topic": "collections.Counter, defaultdict, and deque",
+      "objective": "Regain familiarity with three useful specialized collections.",
+      "description": "Count the words with Counter and show the two most common. Group words by first letter with defaultdict(list). Use deque to add 'zero' on the left and remove the last item.",
+      "requirements": ["Use Counter.most_common", "Use defaultdict(list)", "Use appendleft and pop on deque"],
+      "example_output": "[('python', 3), ('go', 2)]\n{'p': ['python', 'python', 'python'], 'g': ['go', 'go'], 'r': ['rust']}\nremoved: two\ndeque(['zero', 'one'])"
+    },
+    "python-stdlib-004": {
+      "category": "standard library",
+      "title": "Lazy pipeline",
+      "topic": "itertools and functools",
+      "objective": "Review iterator composition and reduction.",
+      "description": "Use itertools.chain to join both lists, materialize the first five values with islice in primeiros, and use functools.reduce to store their product in produto.",
+      "requirements": ["Use chain and islice", "Use reduce with a lambda", "Materialize the five values only once"],
+      "example_output": "[1, 2, 3, 4, 5]\n120"
+    }
+  }
+}
