@@ -20,7 +20,7 @@ import (
 //go:embed all:frontend/dist
 var frontendAssets embed.FS
 
-//go:embed content/python/*.json
+//go:embed content/*/*.json
 var contentAssets embed.FS
 
 func main() {

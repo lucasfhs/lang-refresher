@@ -21,6 +21,8 @@ export function SaveDraft(arg1:string,arg2:string):Promise<void>;
 
 export function SetLanguage(arg1:string):Promise<main.StateView>;
 
+export function SetTrack(arg1:string):Promise<main.StateView>;
+
 export function SkipCurrent(arg1:string):Promise<main.StateView>;
 
 export function ValidateCode(arg1:string):Promise<execution.Result>;

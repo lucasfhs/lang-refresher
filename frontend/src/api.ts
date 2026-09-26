@@ -13,6 +13,7 @@ export const api = {
   initialize: (systemLanguage: string) => appMethod<SessionState>("Initialize", systemLanguage),
   getState: () => appMethod<SessionState>("GetState"),
   setLanguage: (language: string) => appMethod<SessionState>("SetLanguage", language),
+  setTrack: (trackId: string) => appMethod<SessionState>("SetTrack", trackId),
   saveDraft: (id: string, code: string) => appMethod<void>("SaveDraft", id, code),
   navigate: (delta: number) => appMethod<SessionState>("Navigate", delta),
   complete: (code: string) => appMethod<SessionState>("CompleteCurrent", code),

@@ -11,6 +11,7 @@ import (
 
 type State struct {
 	Language string `json:"language"`
+	TrackID  string `json:"track_id,omitempty"`
 }
 
 type Store struct {
@@ -42,7 +43,7 @@ func (s *Store) Load() (State, bool, error) {
 	if err := json.Unmarshal(data, &state); err != nil {
 		return State{}, false, fmt.Errorf("decodificar configurações: %w", err)
 	}
-	return state, state.Language != "", nil
+	return state, state.Language != "" || state.TrackID != "", nil
 }
 
 func (s *Store) Save(state State) error {

@@ -32,6 +32,14 @@ type ExerciseView struct {
 	HasValidator     bool     `json:"hasValidator"`
 }
 
+type TrackView struct {
+	ID               string `json:"id"`
+	Title            string `json:"title"`
+	Description      string `json:"description"`
+	ExerciseCount    int    `json:"exerciseCount"`
+	EstimatedMinutes int    `json:"estimatedMinutes"`
+}
+
 type StateView struct {
 	TrackID          string            `json:"trackId"`
 	TrackTitle       string            `json:"trackTitle"`
@@ -47,6 +55,7 @@ type StateView struct {
 	Status           string            `json:"status"`
 	Statuses         map[string]string `json:"statuses"`
 	Locale           string            `json:"locale"`
+	AvailableTracks  []TrackView       `json:"availableTracks"`
 }
 
 type App struct {
@@ -74,15 +83,37 @@ func (a *App) Initialize(systemLanguage string) (StateView, error) {
 	}
 	locale := resolveLocale(systemLanguage, stored, found)
 	a.setLocale(locale)
+	if stored.TrackID != "" {
+		if track, ok := a.exercises.Track(stored.TrackID); ok {
+			if err := a.sessions.SwitchTrack(track); err != nil {
+				return StateView{}, err
+			}
+		}
+	}
 	return a.stateView(), nil
 }
 
 func (a *App) SetLanguage(language string) (StateView, error) {
 	locale := normalizeLocale(language)
-	if err := a.settings.Save(settings.State{Language: locale}); err != nil {
+	track, _ := a.sessions.Snapshot()
+	if err := a.settings.Save(settings.State{Language: locale, TrackID: track.ID}); err != nil {
 		return StateView{}, err
 	}
 	a.setLocale(locale)
+	return a.stateView(), nil
+}
+
+func (a *App) SetTrack(trackID string) (StateView, error) {
+	track, ok := a.exercises.Track(strings.TrimSpace(trackID))
+	if !ok {
+		return StateView{}, fmt.Errorf("prática desconhecida: %s", trackID)
+	}
+	if err := a.sessions.SwitchTrack(track); err != nil {
+		return StateView{}, err
+	}
+	if err := a.settings.Save(settings.State{Language: a.getLocale(), TrackID: track.ID}); err != nil {
+		return StateView{}, err
+	}
 	return a.stateView(), nil
 }
 
@@ -186,12 +217,22 @@ func (a *App) stateView() StateView {
 	if !exists {
 		draft = exercise.StarterCode
 	}
+	available := make([]TrackView, 0)
+	for _, candidate := range a.exercises.Tracks() {
+		if localized, ok := a.exercises.LocalizedTrack(candidate.ID, locale); ok {
+			candidate = localized
+		}
+		available = append(available, TrackView{
+			ID: candidate.ID, Title: candidate.Title, Description: candidate.Description,
+			ExerciseCount: len(candidate.Exercises), EstimatedMinutes: candidate.EstimatedMinutes,
+		})
+	}
 	return StateView{
 		TrackID: track.ID, TrackTitle: track.Title, TrackDescription: track.Description,
 		Language: track.Language, CurrentIndex: state.CurrentIndex, Total: len(track.Exercises),
 		Completed: completed, Skipped: skipped, ElapsedSeconds: int64(time.Since(state.StartedAt).Seconds()),
 		Exercise: toExerciseView(exercise), Draft: draft, Status: statuses[exercise.ID], Statuses: statuses,
-		Locale: locale,
+		Locale: locale, AvailableTracks: available,
 	}
 }
 
@@ -215,7 +256,7 @@ func normalizeLocale(language string) string {
 }
 
 func resolveLocale(systemLanguage string, stored settings.State, found bool) string {
-	if found {
+	if found && stored.Language != "" {
 		return normalizeLocale(stored.Language)
 	}
 	return normalizeLocale(systemLanguage)

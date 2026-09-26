@@ -1,0 +1,638 @@
+{
+    "track_id": "numpy-refresher",
+    "locale": "en",
+    "title": "NumPy \u2014 from essentials to applications",
+    "description": "A progressive hands-on track covering arrays, vectorization, broadcasting, statistics, linear algebra, and practical numerical-analysis patterns.",
+    "exercises": {
+        "numpy-foundations-001": {
+            "category": "foundations",
+            "title": "Your first ndarray",
+            "topic": "np.array, ndim, shape, and size",
+            "objective": "Create arrays and inspect their structure.",
+            "description": "Create the `notas` vector with 7.5, 8.0, 9.5, and 6.0. Display the array, number of dimensions, shape, and element count.",
+            "requirements": [
+                "Import NumPy as np",
+                "Use np.array with a floating-point dtype",
+                "Inspect ndim, shape, and size"
+            ],
+            "example_output": "[7.5 8.  9.5 6. ]\n1 (4,) 4",
+            "hint": "Array metadata is exposed as attributes, not methods."
+        },
+        "numpy-foundations-002": {
+            "category": "foundations",
+            "title": "Sequences without typing",
+            "topic": "arange and linspace",
+            "objective": "Generate regular sequences with the right tool.",
+            "description": "Create `pares` from 2 through 20 with step 2, and `pontos` with five evenly spaced values from 0 to 1, including both endpoints.",
+            "requirements": [
+                "Use np.arange for pares",
+                "Use np.linspace for pontos",
+                "Do not type the values manually"
+            ],
+            "example_output": "[ 2  4  6  8 10 12 14 16 18 20]\n[0.   0.25 0.5  0.75 1.  ]",
+            "hint": "arange prioritizes the step; linspace prioritizes the count."
+        },
+        "numpy-foundations-003": {
+            "category": "foundations",
+            "title": "Ready-made matrices",
+            "topic": "zeros, full, and eye",
+            "objective": "Use specialized array constructors.",
+            "description": "Create `zeros` with shape 2x3, `preenchida` with shape 2x2 filled with 7, and a 3x3 `identidade` matrix.",
+            "requirements": [
+                "Use np.zeros",
+                "Use np.full",
+                "Use np.eye"
+            ],
+            "example_output": "[[0. 0. 0.]\n [0. 0. 0.]]\n[[7 7]\n [7 7]]\n[[1. 0. 0.]\n [0. 1. 0.]\n [0. 0. 1.]]",
+            "hint": "Pass the shape as a tuple for multidimensional arrays."
+        },
+        "numpy-foundations-004": {
+            "category": "foundations",
+            "title": "Types under control",
+            "topic": "dtype, astype, and precision",
+            "objective": "Understand and convert element types.",
+            "description": "Convert `valores` into 32-bit `inteiros` and 64-bit `precisos` without changing the original array.",
+            "requirements": [
+                "Use astype",
+                "Choose np.int32 and np.float64",
+                "Preserve the values"
+            ],
+            "example_output": "[1 2 3] int32\n[1.2 2.8 3.5] float64",
+            "hint": "astype returns a new array."
+        },
+        "numpy-shape-001": {
+            "category": "shapes",
+            "title": "Array X-ray",
+            "topic": "shape, dtype, itemsize, and nbytes",
+            "objective": "Relate shape, type, and memory use.",
+            "description": "Build `dados` as a 3x4 matrix of 16-bit integers and create the `info` dictionary with shape, dtype as text, itemsize, and nbytes.",
+            "requirements": [
+                "Use arange and reshape",
+                "Convert to int16",
+                "Fill all four info keys"
+            ],
+            "example_output": "{'shape': (3, 4), 'dtype': 'int16', 'itemsize': 2, 'nbytes': 24}",
+            "hint": "nbytes equals size multiplied by itemsize."
+        },
+        "numpy-shape-002": {
+            "category": "shapes",
+            "title": "Reshape without losing data",
+            "topic": "reshape and -1 inference",
+            "objective": "Change shape while keeping data order.",
+            "description": "Turn `sequencia` into a three-row `matriz`, letting NumPy infer the number of columns.",
+            "requirements": [
+                "Use reshape",
+                "Use -1 for one dimension",
+                "Do not recreate the data"
+            ],
+            "example_output": "[[ 1  2  3  4]\n [ 5  6  7  8]\n [ 9 10 11 12]]",
+            "hint": "The total element count must stay the same."
+        },
+        "numpy-shape-003": {
+            "category": "shapes",
+            "title": "View or copy?",
+            "topic": "ravel, flatten, and shared memory",
+            "objective": "Distinguish views from copies.",
+            "description": "From `matriz`, create `vista` with ravel and `copia` with flatten. Set the first item in `vista` to 99 and observe which object follows the change.",
+            "requirements": [
+                "Use ravel and flatten",
+                "Change vista only",
+                "Keep copia independent"
+            ],
+            "example_output": "99 99 0",
+            "hint": "np.shares_memory helps investigate memory sharing."
+        },
+        "numpy-shape-004": {
+            "category": "shapes",
+            "title": "Axes in motion",
+            "topic": "transpose, T, and swapaxes",
+            "objective": "Permute axes deliberately.",
+            "description": "Create `transposta` by swapping rows and columns in `matriz`, and `trocado` by swapping the first two axes in `cubo`.",
+            "requirements": [
+                "Use .T or transpose",
+                "Use swapaxes on cubo",
+                "Check the shapes"
+            ],
+            "example_output": "(3, 2)\n(3, 2, 4)",
+            "hint": "swapaxes takes the indexes of the two axes."
+        },
+        "numpy-shape-005": {
+            "category": "shapes",
+            "title": "Dimensions on demand",
+            "topic": "newaxis, expand_dims, and squeeze",
+            "objective": "Add and remove size-one axes.",
+            "description": "Turn `vetor` into `coluna` with shape (4,1), then recover `restaurado` with shape (4,).",
+            "requirements": [
+                "Add an axis without reshape",
+                "Use squeeze to remove it",
+                "Preserve the values"
+            ],
+            "example_output": "(4, 1)\n(4,)",
+            "hint": "np.newaxis is an alias for None used in indexing."
+        },
+        "numpy-indexing-001": {
+            "category": "indexing",
+            "title": "Slices are views",
+            "topic": "slicing and side effects",
+            "objective": "Use slicing and recognize shared memory.",
+            "description": "Extract the central 2x2 block of `grade` into `centro`. Multiply that block by -1 in-place and confirm the grid changes.",
+            "requirements": [
+                "Use two-dimensional slicing",
+                "Perform an in-place change",
+                "Do not use loops"
+            ],
+            "example_output": "[[ 0  1  2  3]\n [ 4 -5 -6  7]\n [ 8 -9 -10 11]\n [12 13 14 15]]",
+            "hint": "The central block occupies rows and columns 1:3."
+        },
+        "numpy-indexing-002": {
+            "category": "indexing",
+            "title": "Out-of-order selection",
+            "topic": "fancy indexing",
+            "objective": "Select arbitrary positions with index arrays.",
+            "description": "Create `selecionados` from positions 4, 1, and 5 of `valores`, in that order. Then change selecionados and verify valores does not change.",
+            "requirements": [
+                "Use a list or array of indexes",
+                "Preserve the requested order",
+                "Recognize that the result is a copy"
+            ],
+            "example_output": "[50 20 60]",
+            "hint": "Advanced indexing returns a copy."
+        },
+        "numpy-indexing-003": {
+            "category": "indexing",
+            "title": "Vectorized filter",
+            "topic": "boolean masks",
+            "objective": "Filter without writing loops.",
+            "description": "Select grades at least 7 into `aprovados` and grades from 5 up to, but not including, 7 into `recuperacao`.",
+            "requirements": [
+                "Create boolean masks",
+                "Combine conditions with &",
+                "Do not use a list comprehension"
+            ],
+            "example_output": "[7.  8.5 9. ]\n[5.5 6. ]",
+            "hint": "Parenthesize each comparison when using &."
+        },
+        "numpy-indexing-004": {
+            "category": "indexing",
+            "title": "Element-wise choice",
+            "topic": "where and clip",
+            "objective": "Apply conditional rules to arrays.",
+            "description": "Clamp `temperaturas` to the 0..40 range in `ajustadas`, and create `rotulos` with 'alta' for original values above 30 and 'ok' otherwise.",
+            "requirements": [
+                "Use np.clip",
+                "Use np.where",
+                "Operate on the whole array"
+            ],
+            "example_output": "[ 0 18 31 40]\n['ok' 'ok' 'alta' 'alta']",
+            "hint": "where(condition, value_if_true, value_if_false)."
+        },
+        "numpy-indexing-005": {
+            "category": "indexing",
+            "title": "Multiple conditions",
+            "topic": "np.select",
+            "objective": "Classify values using several vectorized rules.",
+            "description": "Classify `idades` as crian\u00e7a (<12), adolescente (<18), adulto (<60), or idoso otherwise, saving the result in `faixas`.",
+            "requirements": [
+                "Use np.select",
+                "Order conditions from most restrictive",
+                "Set a default value"
+            ],
+            "example_output": "['crian\u00e7a' 'adolescente' 'adulto' 'idoso']",
+            "hint": "np.select takes a list of conditions and a list of choices."
+        },
+        "numpy-broadcasting-001": {
+            "category": "broadcasting",
+            "title": "Row plus column",
+            "topic": "broadcasting rules",
+            "objective": "Combine compatible shapes without manual replication.",
+            "description": "Add `linha` with shape (3,) to `coluna` with shape (2,1), saving the 2x3 matrix in `somas`.",
+            "requirements": [
+                "Use direct addition",
+                "Do not use tile or loops",
+                "Keep the original shapes"
+            ],
+            "example_output": "[[11 12 13]\n [21 22 23]]",
+            "hint": "Dimensions are compared from right to left."
+        },
+        "numpy-broadcasting-002": {
+            "category": "broadcasting",
+            "title": "Column normalization",
+            "topic": "broadcasting with per-axis statistics",
+            "objective": "Center columns using reduction and broadcasting.",
+            "description": "Create `centralizada` by subtracting each column's own mean from `dados`. Keep the means' dimension in `medias`.",
+            "requirements": [
+                "Compute mean on axis 0",
+                "Use keepdims=True",
+                "Do not use loops"
+            ],
+            "example_output": "[[-3. -3. -3.]\n [ 0.  0.  0.]\n [ 3.  3.  3.]]",
+            "hint": "keepdims yields shape (1,3), compatible with the matrix."
+        },
+        "numpy-ufuncs-001": {
+            "category": "ufuncs",
+            "title": "Ufunc with a selective destination",
+            "topic": "out and where in ufuncs",
+            "objective": "Control where and into which buffer a ufunc writes.",
+            "description": "In `raizes`, calculate square roots only for non-negative values. Keep -1 in all other positions by using the out and where parameters of np.sqrt.",
+            "requirements": [
+                "Initialize raizes with -1",
+                "Use np.sqrt with out",
+                "Use where without if"
+            ],
+            "example_output": "[-1.  0.  2.  3.]",
+            "hint": "The where parameter does not automatically fill false positions."
+        },
+        "numpy-aggregation-001": {
+            "category": "aggregations",
+            "title": "Reduce along the right axis",
+            "topic": "sum, max, and axis",
+            "objective": "Interpret reductions by row and column.",
+            "description": "Calculate `somas_colunas`, `maximos_linhas`, and the `total` of the dados matrix.",
+            "requirements": [
+                "Use sum with axis=0",
+                "Use max with axis=1",
+                "Also calculate the full reduction"
+            ],
+            "example_output": "[12 15 18 21]\n[ 3  7 11]\n66",
+            "hint": "Removing axis 0 aggregates rows and leaves one output per column."
+        },
+        "numpy-aggregation-002": {
+            "category": "aggregations",
+            "title": "Where is the extreme?",
+            "topic": "argmin, argmax, and unravel_index",
+            "objective": "Find indexes of extreme values.",
+            "description": "Find the column of each row's maximum in `colunas_max`, and the (row,column) position of the global minimum in `posicao_min`.",
+            "requirements": [
+                "Use argmax by axis",
+                "Use global argmin",
+                "Convert the flat index with unravel_index"
+            ],
+            "example_output": "[1 0 2]\n(1, 2)",
+            "hint": "unravel_index needs the original shape."
+        },
+        "numpy-aggregation-003": {
+            "category": "aggregations",
+            "title": "Missing data",
+            "topic": "NaN, nanmean, and nan_to_num",
+            "objective": "Calculate with explicit missing values.",
+            "description": "Calculate column means ignoring NaN in `medias`, and create `limpo` by replacing each NaN with its column mean.",
+            "requirements": [
+                "Use np.nanmean",
+                "Use broadcasting or indexing to fill values",
+                "Do not change dados"
+            ],
+            "example_output": "[2.5 5.  4.5]\n[[1.  5.  3. ]\n [4.  5.  6. ]]",
+            "hint": "np.where with np.isnan can combine dados and medias."
+        },
+        "numpy-combine-001": {
+            "category": "combining",
+            "title": "Join or stack",
+            "topic": "concatenate, stack, vstack, and hstack",
+            "objective": "Choose between extending an axis and creating a new one.",
+            "description": "Join a and b into `concatenado` with shape (6,), and stack both into `empilhado` with shape (2,3).",
+            "requirements": [
+                "Use concatenate",
+                "Use stack or vstack",
+                "Compare the shapes"
+            ],
+            "example_output": "[1 2 3 4 5 6]\n[[1 2 3]\n [4 5 6]]",
+            "hint": "stack creates a new axis; concatenate uses an existing one."
+        },
+        "numpy-combine-002": {
+            "category": "combining",
+            "title": "Balanced splitting",
+            "topic": "split and array_split",
+            "objective": "Partition arrays and understand uneven divisions.",
+            "description": "Split `dados` into three equal parts in `iguais`, and into four possible parts in `flexiveis`.",
+            "requirements": [
+                "Use np.split",
+                "Use np.array_split",
+                "Keep lists of arrays"
+            ],
+            "example_output": "[[0, 1, 2], [3, 4, 5], [6, 7, 8]]\n[3, 2, 2, 2]",
+            "hint": "array_split allows unequal sizes."
+        },
+        "numpy-combine-003": {
+            "category": "combining",
+            "title": "Repeat with intent",
+            "topic": "repeat and tile",
+            "objective": "Distinguish repeating elements from repeating patterns.",
+            "description": "Create `repetido` by repeating each base item twice, and `mosaico` by repeating the complete pattern three times.",
+            "requirements": [
+                "Use np.repeat",
+                "Use np.tile",
+                "Produce one-dimensional arrays"
+            ],
+            "example_output": "[1 1 2 2 3 3]\n[1 2 3 1 2 3 1 2 3]",
+            "hint": "repeat acts on elements; tile acts on the block."
+        },
+        "numpy-order-001": {
+            "category": "sorting and searching",
+            "title": "Sort while preserving the source",
+            "topic": "sort and argsort",
+            "objective": "Sort values and carry associated indexes.",
+            "description": "Calculate `ordem` that sorts pontuacoes in ascending order, then use it to create `nomes_ordenados` without changing the original arrays.",
+            "requirements": [
+                "Use np.argsort",
+                "Index nomes with ordem",
+                "Preserve pontuacoes"
+            ],
+            "example_output": "['Bia' 'Dani' 'Ana' 'Caio']",
+            "hint": "argsort returns the indexes that would sort an array."
+        },
+        "numpy-order-002": {
+            "category": "sorting and searching",
+            "title": "Values and frequencies",
+            "topic": "unique with return_counts",
+            "objective": "Summarize categories without loops.",
+            "description": "Extract sorted unique categories into `valores` and their frequencies into `contagens`.",
+            "requirements": [
+                "Use np.unique",
+                "Request return_counts=True",
+                "Do not use Counter"
+            ],
+            "example_output": "['azul' 'verde' 'vermelho']\n[3 2 2]",
+            "hint": "unique sorts its output."
+        },
+        "numpy-order-003": {
+            "category": "sorting and searching",
+            "title": "Efficient integer counting",
+            "topic": "bincount and histogram",
+            "objective": "Count non-negative integers and bin measurements.",
+            "description": "Create `frequencias` for integer grades 0..5 with bincount, and `histograma` for bins [0,3) and [3,6].",
+            "requirements": [
+                "Use minlength in bincount",
+                "Use np.histogram",
+                "Also save the edges in bordas"
+            ],
+            "example_output": "[1 2 1 3 1 2]\n[4 6]\n[0 3 6]",
+            "hint": "bincount uses each value itself as an index."
+        },
+        "numpy-order-004": {
+            "category": "sorting and searching",
+            "title": "Coordinates that matter",
+            "topic": "nonzero and argwhere",
+            "objective": "Locate elements that satisfy a condition.",
+            "description": "Find coordinates (row,column) of values above 5 in `posicoes`, and separate indexes in `linhas` and `colunas`.",
+            "requirements": [
+                "Use np.argwhere",
+                "Use np.nonzero",
+                "Apply the same mask"
+            ],
+            "example_output": "[[0 2]\n [1 1]]\n[0 1] [2 1]",
+            "hint": "argwhere stacks coordinates; nonzero returns one tuple item per axis."
+        },
+        "numpy-linalg-001": {
+            "category": "linear algebra",
+            "title": "The right product for each case",
+            "topic": "dot, @, and matmul",
+            "objective": "Distinguish dot and matrix products.",
+            "description": "Calculate `produto_escalar` between u and v, and `produto_matricial` between A and B using the @ operator.",
+            "requirements": [
+                "Use np.dot for vectors",
+                "Use @ for matrices",
+                "Do not use element-wise multiplication"
+            ],
+            "example_output": "32\n[[19 22]\n [43 50]]",
+            "hint": "The left column count must match the right row count."
+        },
+        "numpy-linalg-002": {
+            "category": "linear algebra",
+            "title": "Solve without inverting",
+            "topic": "linalg.solve",
+            "objective": "Solve linear systems numerically.",
+            "description": "Solve Ax=b in `solucao` with np.linalg.solve and confirm in `residuo` that A @ solucao - b is near zero.",
+            "requirements": [
+                "Use np.linalg.solve",
+                "Do not calculate an inverse",
+                "Calculate the residual"
+            ],
+            "example_output": "[2. 3.]\n[0. 0.]",
+            "hint": "A direct solve is more stable and efficient than inv(A) @ b."
+        },
+        "numpy-linalg-003": {
+            "category": "linear algebra",
+            "title": "Distances by norm",
+            "topic": "linalg.norm and axis",
+            "objective": "Calculate norms for several observations at once.",
+            "description": "In `normas`, calculate the Euclidean norm of each row in pontos; in `distancias`, calculate each point's distance to referencia.",
+            "requirements": [
+                "Use np.linalg.norm",
+                "Reduce axis=1",
+                "Use broadcasting in the subtraction"
+            ],
+            "example_output": "[ 5. 13.  0.]\n[ 0.         10.77032961  5.        ]",
+            "hint": "Each row represents a 2D point."
+        },
+        "numpy-random-001": {
+            "category": "randomness",
+            "title": "Reproducible randomness",
+            "topic": "default_rng and seed",
+            "objective": "Generate reproducible samples with the modern API.",
+            "description": "Create `rng` with seed 42 and generate a 2x3 `amostra` matrix of integers from 1 through 9.",
+            "requirements": [
+                "Use np.random.default_rng",
+                "Pass seed 42",
+                "Use rng.integers with size"
+            ],
+            "example_output": "[[1 7 6]\n [4 4 8]]",
+            "hint": "The upper bound of integers is exclusive."
+        },
+        "numpy-random-002": {
+            "category": "randomness",
+            "title": "Distribution at scale",
+            "topic": "normal and sample statistics",
+            "objective": "Sample a distribution and summarize the result.",
+            "description": "With an rng seeded at 7, generate `dados` containing 10,000 normal values with mean 100 and standard deviation 15. Calculate `media` and `desvio`.",
+            "requirements": [
+                "Use rng.normal",
+                "Generate in one operation",
+                "Use mean and std"
+            ],
+            "example_output": "approximately 100\napproximately 15",
+            "hint": "Large samples approximate the parameters but are not identical to them."
+        },
+        "numpy-random-003": {
+            "category": "randomness",
+            "title": "Sample without replacement",
+            "topic": "choice and permutation",
+            "objective": "Sample and shuffle without changing the source.",
+            "description": "With seed 21, choose three distinct names without replacement in `sorteio`, and create `embaralhado` as a permutation of all names.",
+            "requirements": [
+                "Use rng.choice with replace=False",
+                "Use rng.permutation",
+                "Preserve nomes"
+            ],
+            "example_output": "three distinct names\nall five names in a new order",
+            "hint": "Use the same generator for both operations to get a deterministic sequence."
+        },
+        "numpy-io-001": {
+            "category": "input and output",
+            "title": "Binary array bundle",
+            "topic": "savez and load",
+            "objective": "Persist multiple arrays while preserving types and shapes.",
+            "description": "Save a and b to `dados.npz` with explicit names, load the file, and copy its arrays to `carregado_a` and `carregado_b`.",
+            "requirements": [
+                "Use np.savez",
+                "Use np.load",
+                "Access the a and b keys"
+            ],
+            "example_output": "[1 2 3]\n[[1. 0.]\n [0. 1.]]",
+            "hint": "Use a with block when opening the NpzFile."
+        },
+        "numpy-io-002": {
+            "category": "input and output",
+            "title": "Interoperable text",
+            "topic": "savetxt and loadtxt",
+            "objective": "Exchange numerical matrices in text form.",
+            "description": "Save dados to `dados.csv` using commas and two decimal places; load it back into `carregado`.",
+            "requirements": [
+                "Use np.savetxt with delimiter",
+                "Set fmt='%.2f'",
+                "Use np.loadtxt"
+            ],
+            "example_output": "1.25,2.50\n3.75,4.00",
+            "hint": "Use the same delimiter when reading."
+        },
+        "numpy-vectorization-001": {
+            "category": "vectorization",
+            "title": "Conversion without a loop",
+            "topic": "vectorized operations",
+            "objective": "Replace Python iteration with bulk calculation.",
+            "description": "Convert every Celsius temperature to Fahrenheit in `fahrenheit` with a single vectorized expression.",
+            "requirements": [
+                "Use the C*9/5+32 formula",
+                "Do not use for or a comprehension",
+                "Preserve celsius"
+            ],
+            "example_output": "[ 32.  50.  68.  86. 104.]",
+            "hint": "Arithmetic operators are applied element by element."
+        },
+        "numpy-vectorization-002": {
+            "category": "vectorization",
+            "title": "All distances at once",
+            "topic": "three-dimensional broadcasting",
+            "objective": "Calculate a distance matrix without loops.",
+            "description": "In `distancias`, calculate all Euclidean distances between every row of A and every row of B. The output must have shape (3,2).",
+            "requirements": [
+                "Create differences with new axes",
+                "Use norm on the last axis",
+                "Do not use loops"
+            ],
+            "example_output": "[[1.         2.23606798]\n [1.         1.        ]\n [2.23606798 1.        ]]",
+            "hint": "A[:, None, :] - B[None, :, :] yields shape (3,2,2)."
+        },
+        "numpy-grids-001": {
+            "category": "grids",
+            "title": "Function over a grid",
+            "topic": "meshgrid",
+            "objective": "Build coordinates for evaluating surfaces.",
+            "description": "Create X and Y with meshgrid from x=[-1,0,1] and y=[-2,0,2], then calculate `Z = X**2 + Y**2`.",
+            "requirements": [
+                "Use np.meshgrid",
+                "Keep X, Y, and Z",
+                "Do not use loops"
+            ],
+            "example_output": "[[5 4 5]\n [1 0 1]\n [5 4 5]]",
+            "hint": "With default indexing, every row of X repeats x."
+        },
+        "numpy-advanced-001": {
+            "category": "advanced",
+            "title": "Einstein in one line",
+            "topic": "einsum",
+            "objective": "Express products and traces through indexes.",
+            "description": "Use np.einsum to calculate the matrix `produto` of A and B, and `diagonal` containing A's diagonal elements.",
+            "requirements": [
+                "Use 'ij,jk->ik' for the product",
+                "Use 'ii->i' for the diagonal",
+                "Do not use @ or np.diag"
+            ],
+            "example_output": "[[ 4  5]\n [10 11]]\n[1 4]",
+            "hint": "Repeated letters indicate contracted axes or diagonals."
+        },
+        "numpy-advanced-002": {
+            "category": "advanced",
+            "title": "Sliding windows",
+            "topic": "sliding_window_view",
+            "objective": "Create overlapping windows without manual copies.",
+            "description": "Create size-three `janelas` over serie and calculate `media_movel` for each window.",
+            "requirements": [
+                "Use sliding_window_view",
+                "Use mean by axis",
+                "Do not use loops"
+            ],
+            "example_output": "[[1. 2. 3.]\n [2. 3. 4.]\n [3. 4. 5.]\n [4. 5. 6.]]\n[2. 3. 4. 5.]",
+            "hint": "The function lives in np.lib.stride_tricks."
+        },
+        "numpy-applied-001": {
+            "category": "applications",
+            "title": "One-hot encoding",
+            "topic": "advanced indexing in practice",
+            "objective": "Transform integer labels into indicators.",
+            "description": "Convert rotulos into a `one_hot` matrix with four rows and three classes using NumPy indexing.",
+            "requirements": [
+                "Start with zeros",
+                "Use row indexes and rotulos",
+                "Do not use loops"
+            ],
+            "example_output": "[[1 0 0]\n [0 0 1]\n [0 1 0]\n [0 0 1]]",
+            "hint": "one_hot[np.arange(n), rotulos] = 1."
+        },
+        "numpy-applied-002": {
+            "category": "applications",
+            "title": "Robust standardization",
+            "topic": "z-score by column",
+            "objective": "Prepare features for modeling.",
+            "description": "Standardize each column of X into `padronizado` using population mean and standard deviation. Protect constant columns by replacing zero deviation with 1 in `escala`.",
+            "requirements": [
+                "Calculate mean and std by column",
+                "Use np.where for a safe scale",
+                "Do not produce NaN or infinity"
+            ],
+            "example_output": "columns have mean 0\nvariable columns have deviation 1",
+            "hint": "A constant column must become zeros."
+        },
+        "numpy-applied-003": {
+            "category": "applications",
+            "title": "Confusion matrix",
+            "topic": "np.add.at",
+            "objective": "Accumulate class pairs in a vectorized way.",
+            "description": "Build a 3x3 `matriz_confusao` where rows are true classes and columns are predicted classes, accumulating every pair.",
+            "requirements": [
+                "Initialize an integer zero matrix",
+                "Use np.add.at",
+                "Do not use loops"
+            ],
+            "example_output": "[[2 0 0]\n [0 1 1]\n [0 1 2]]",
+            "hint": "np.add.at(matriz, (reais, previstas), 1) handles repeated indexes correctly."
+        },
+        "numpy-applied-004": {
+            "category": "applications",
+            "title": "Mini-batches",
+            "topic": "permutation, indexing, and reshape",
+            "objective": "Prepare shuffled batches for training.",
+            "description": "With seed 5, create `indices` as a permutation of X's eight rows, produce `embaralhado = X[indices]`, and reshape into `lotes` with shape (4,2,2).",
+            "requirements": [
+                "Use default_rng and permutation",
+                "Use fancy indexing",
+                "Use reshape for batches"
+            ],
+            "example_output": "shape: (4, 2, 2)\neach sample appears once",
+            "hint": "Four batches, two samples per batch, two features per sample."
+        },
+        "numpy-applied-005": {
+            "category": "applications",
+            "title": "Sensor pipeline",
+            "topic": "cleaning, clipping, and grouped summaries",
+            "objective": "Combine NumPy techniques in a realistic flow.",
+            "description": "In `limpo`, replace NaN with each column's median and clamp values to [0,100]. Then calculate `resumo` containing each column's mean for groups 0 and 1, producing shape (2,3).",
+            "requirements": [
+                "Use nanmedian by column",
+                "Use where and clip",
+                "Summarize groups without Python loops"
+            ],
+            "example_output": "[[10.  20.  30. ]\n [32.5 42.5 70. ]]",
+            "hint": "One vectorized group solution is to stack means calculated through masks."
+        }
+    }
+}

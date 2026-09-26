@@ -15,6 +15,14 @@ export interface Exercise {
   hasValidator: boolean;
 }
 
+export interface TrackSummary {
+  id: string;
+  title: string;
+  description: string;
+  exerciseCount: number;
+  estimatedMinutes: number;
+}
+
 export interface SessionState {
   trackId: string;
   trackTitle: string;
@@ -30,6 +38,7 @@ export interface SessionState {
   status: "" | "completed" | "skipped";
   statuses: Record<string, string>;
   locale: "pt-BR" | "en";
+  availableTracks: TrackSummary[];
 }
 
 export interface ExecutionResult {

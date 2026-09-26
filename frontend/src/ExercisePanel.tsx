@@ -20,7 +20,7 @@ export function ExercisePanel({ state, busy, onPrevious, onNext, onComplete, onS
     <aside className="exercise-panel">
       <header className="track-header">
         <div className="brand-row">
-          <button className="settings-button" onClick={onSettings} title={t.settings}><Settings size={18} /></button>
+          <button className="settings-button" onClick={onSettings} title={t.settings} disabled={busy}><Settings size={18} /></button>
           <div>
             <div className="eyebrow">LANGUAGE REFRESHER</div>
             <h1>{state.trackTitle}</h1>

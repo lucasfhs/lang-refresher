@@ -38,6 +38,10 @@ export function SetLanguage(arg1) {
   return window['go']['main']['App']['SetLanguage'](arg1);
 }
 
+export function SetTrack(arg1) {
+  return window['go']['main']['App']['SetTrack'](arg1);
+}
+
 export function SkipCurrent(arg1) {
   return window['go']['main']['App']['SkipCurrent'](arg1);
 }

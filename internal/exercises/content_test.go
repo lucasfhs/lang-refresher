@@ -56,7 +56,43 @@ func TestPythonCoreCatalog(t *testing.T) {
 	}
 }
 
-func TestPythonSnippetsCompile(t *testing.T) {
+func TestNumPyCatalog(t *testing.T) {
+	repo, err := Load(os.DirFS("../.."), "content/*/*-refresher.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := repo.LoadTranslations(os.DirFS("../.."), "content/*/*.i18n.json"); err != nil {
+		t.Fatal(err)
+	}
+	track, ok := repo.Track("numpy-refresher")
+	if !ok {
+		t.Fatal("trilha NumPy não encontrada")
+	}
+	if len(track.Exercises) != 45 {
+		t.Fatalf("esperava 45 exercícios NumPy, recebeu %d", len(track.Exercises))
+	}
+	totalMinutes := 0
+	categories := map[string]bool{}
+	for _, exercise := range track.Exercises {
+		totalMinutes += exercise.EstimatedMinutes
+		categories[exercise.Category] = true
+		if exercise.Validator == nil {
+			t.Fatalf("exercício NumPy sem validação: %s", exercise.ID)
+		}
+	}
+	if totalMinutes < 120 || totalMinutes > 150 {
+		t.Fatalf("duração NumPy inesperada: %d", totalMinutes)
+	}
+	if len(categories) < 12 {
+		t.Fatalf("cobertura NumPy insuficiente: %v", categories)
+	}
+	english, ok := repo.LocalizedTrack(track.ID, "en")
+	if !ok || len(english.Exercises) != 45 || english.Title == track.Title {
+		t.Fatalf("tradução NumPy inválida: %#v", english)
+	}
+}
+
+func TestTrackSnippetsCompile(t *testing.T) {
 	python, err := exec.LookPath("python")
 	if err != nil {
 		t.Skip("Python não está instalado")
@@ -65,15 +101,16 @@ func TestPythonSnippetsCompile(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	track, _ := repo.Track("python-core-refresher")
-	for _, exercise := range track.Exercises {
-		t.Run(exercise.ID, func(t *testing.T) {
-			assertPythonCompiles(t, python, exercise.StarterCode)
-			if exercise.Validator != nil {
-				validator := "import runpy\nsolution = runpy.run_path('main.py', run_name='solution')\n" + exercise.Validator.TestCode
-				assertPythonCompiles(t, python, validator)
-			}
-		})
+	for _, track := range repo.Tracks() {
+		for _, exercise := range track.Exercises {
+			t.Run(exercise.ID, func(t *testing.T) {
+				assertPythonCompiles(t, python, exercise.StarterCode)
+				if exercise.Validator != nil {
+					validator := "import runpy\nsolution = runpy.run_path('main.py', run_name='solution')\n" + exercise.Validator.TestCode
+					assertPythonCompiles(t, python, validator)
+				}
+			})
+		}
 	}
 }
 

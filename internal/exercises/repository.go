@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/fs"
 	"path/filepath"
+	"sort"
 	"strings"
 )
 
@@ -110,6 +111,16 @@ func (r *Repository) LocalizedTrack(id, locale string) (Track, bool) {
 func (r *Repository) Track(id string) (Track, bool) {
 	track, ok := r.tracks[id]
 	return track, ok
+}
+
+// Tracks returns every available practice in a deterministic order.
+func (r *Repository) Tracks() []Track {
+	tracks := make([]Track, 0, len(r.tracks))
+	for _, track := range r.tracks {
+		tracks = append(tracks, track)
+	}
+	sort.Slice(tracks, func(i, j int) bool { return tracks[i].ID < tracks[j].ID })
+	return tracks
 }
 
 func validateTrack(track Track) error {

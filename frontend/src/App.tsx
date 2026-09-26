@@ -135,6 +135,15 @@ export default function App() {
     } catch (err) { setError(readError(err)); }
   };
 
+  const changeTrack = async (trackId: string) => {
+    if (!state || trackId === state.trackId) return;
+    try {
+      await api.saveDraft(state.exercise.id, codeRef.current);
+      loadState(await api.setTrack(trackId));
+      setSettingsOpen(false);
+    } catch (err) { setError(readError(err)); }
+  };
+
   if (!state) {
     const initialLocale = (navigator.language || "en").toLowerCase().startsWith("pt") ? "pt-BR" : "en";
     return <div className="loading-screen"><div className="brand-mark large"><Settings size={22} /></div><p>{error || getCopy(initialLocale).loading}</p></div>;
@@ -145,7 +154,7 @@ export default function App() {
       <ExercisePanel state={{ ...state, elapsedSeconds }} busy={running} onPrevious={() => navigate(-1)} onNext={() => navigate(1)} onComplete={() => advance("complete")} onSkip={() => advance("skip")} onRestart={restart} onSettings={() => setSettingsOpen(true)} />
       <ResizeHandle orientation="vertical" ariaLabel={getCopy(state.locale).resizeExercise} onDrag={(delta) => setExerciseWidth((width) => clampExerciseWidth(width + delta))} onReset={() => setExerciseWidth(clampExerciseWidth(430))} />
       <Workspace state={state} code={code} result={result} error={error} running={running} validating={validating} saved={saved} onCodeChange={onCodeChange} onRun={() => execute(false)} onValidate={() => execute(true)} onCancel={() => api.cancel()} onSave={save} />
-      {settingsOpen && <SettingsModal locale={state.locale} onChange={changeLanguage} onClose={() => setSettingsOpen(false)} />}
+      {settingsOpen && <SettingsModal locale={state.locale} currentTrackId={state.trackId} tracks={state.availableTracks} onChange={changeLanguage} onTrackChange={changeTrack} onClose={() => setSettingsOpen(false)} />}
     </div>
   );
 }

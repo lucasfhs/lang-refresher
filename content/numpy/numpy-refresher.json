@@ -1,0 +1,1044 @@
+{
+    "id": "numpy-refresher",
+    "language": "python",
+    "title": "NumPy \u2014 do essencial ao aplicado",
+    "description": "Uma trilha pr\u00e1tica e progressiva para dominar arrays, vetoriza\u00e7\u00e3o, broadcasting, estat\u00edstica, \u00e1lgebra linear e padr\u00f5es reais de an\u00e1lise num\u00e9rica.",
+    "estimated_minutes": 130,
+    "exercises": [
+        {
+            "id": "numpy-foundations-001",
+            "language": "python",
+            "category": "fundamentos",
+            "title": "Seu primeiro ndarray",
+            "topic": "np.array, ndim, shape e size",
+            "objective": "Criar arrays e inspecionar sua estrutura.",
+            "description": "Crie o vetor `notas` com 7.5, 8.0, 9.5 e 6.0. Exiba o array, n\u00famero de dimens\u00f5es, formato e quantidade de elementos.",
+            "requirements": [
+                "Importe NumPy como np",
+                "Use np.array com dtype float",
+                "Consulte ndim, shape e size"
+            ],
+            "example_output": "[7.5 8.  9.5 6. ]\n1 (4,) 4",
+            "hint": "Os metadados do array s\u00e3o atributos, n\u00e3o fun\u00e7\u00f5es.",
+            "starter_code": "import numpy as np\n\n# Crie notas e inspecione sua estrutura\n",
+            "estimated_minutes": 2,
+            "difficulty": 1,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nnotas = solution.get('notas')\nassert isinstance(notas, np.ndarray)\nassert notas.dtype.kind == 'f'\nnp.testing.assert_array_equal(notas, [7.5, 8.0, 9.5, 6.0])"
+            }
+        },
+        {
+            "id": "numpy-foundations-002",
+            "language": "python",
+            "category": "fundamentos",
+            "title": "Sequ\u00eancias sem digita\u00e7\u00e3o",
+            "topic": "arange e linspace",
+            "objective": "Gerar sequ\u00eancias regulares escolhendo a ferramenta adequada.",
+            "description": "Crie `pares` de 2 at\u00e9 20 com passo 2 e `pontos` com cinco valores igualmente espa\u00e7ados entre 0 e 1, incluindo os extremos.",
+            "requirements": [
+                "Use np.arange para pares",
+                "Use np.linspace para pontos",
+                "N\u00e3o escreva os valores manualmente"
+            ],
+            "example_output": "[ 2  4  6  8 10 12 14 16 18 20]\n[0.   0.25 0.5  0.75 1.  ]",
+            "hint": "arange privilegia o passo; linspace privilegia a quantidade.",
+            "starter_code": "import numpy as np\n\n",
+            "estimated_minutes": 2,
+            "difficulty": 1,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nnp.testing.assert_array_equal(solution.get('pares'), np.arange(2, 21, 2))\nnp.testing.assert_allclose(solution.get('pontos'), np.linspace(0, 1, 5))"
+            }
+        },
+        {
+            "id": "numpy-foundations-003",
+            "language": "python",
+            "category": "fundamentos",
+            "title": "Matrizes prontas",
+            "topic": "zeros, full e eye",
+            "objective": "Usar construtores especializados de arrays.",
+            "description": "Crie `zeros` 2x3, `preenchida` 2x2 com valor 7 e uma `identidade` 3x3.",
+            "requirements": [
+                "Use np.zeros",
+                "Use np.full",
+                "Use np.eye"
+            ],
+            "example_output": "[[0. 0. 0.]\n [0. 0. 0.]]\n[[7 7]\n [7 7]]\n[[1. 0. 0.]\n [0. 1. 0.]\n [0. 0. 1.]]",
+            "hint": "Passe o shape como uma tupla para arrays multidimensionais.",
+            "starter_code": "import numpy as np\n\n",
+            "estimated_minutes": 2,
+            "difficulty": 1,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nnp.testing.assert_array_equal(solution.get('zeros'), np.zeros((2, 3)))\nnp.testing.assert_array_equal(solution.get('preenchida'), np.full((2, 2), 7))\nnp.testing.assert_array_equal(solution.get('identidade'), np.eye(3))"
+            }
+        },
+        {
+            "id": "numpy-foundations-004",
+            "language": "python",
+            "category": "fundamentos",
+            "title": "Tipos sob controle",
+            "topic": "dtype, astype e precis\u00e3o",
+            "objective": "Entender e converter o tipo dos elementos.",
+            "description": "Converta `valores` em `inteiros` de 32 bits e em `precisos` de 64 bits sem alterar o array original.",
+            "requirements": [
+                "Use astype",
+                "Escolha np.int32 e np.float64",
+                "Preserve valores"
+            ],
+            "example_output": "[1 2 3] int32\n[1.2 2.8 3.5] float64",
+            "hint": "astype retorna um novo array.",
+            "starter_code": "import numpy as np\n\nvalores = np.array([1.2, 2.8, 3.5])\n",
+            "estimated_minutes": 2,
+            "difficulty": 1,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nassert solution.get('inteiros').dtype == np.int32\nassert solution.get('precisos').dtype == np.float64\nnp.testing.assert_array_equal(solution['inteiros'], [1, 2, 3])\nnp.testing.assert_allclose(solution['valores'], [1.2, 2.8, 3.5])"
+            }
+        },
+        {
+            "id": "numpy-shape-001",
+            "language": "python",
+            "category": "formas",
+            "title": "Raio X do array",
+            "topic": "shape, dtype, itemsize e nbytes",
+            "objective": "Relacionar formato, tipo e uso de mem\u00f3ria.",
+            "description": "Monte `dados` como matriz 3x4 de inteiros 16 bits e crie o dicion\u00e1rio `info` com shape, dtype em texto, itemsize e nbytes.",
+            "requirements": [
+                "Use arange e reshape",
+                "Converta para int16",
+                "Preencha as quatro chaves de info"
+            ],
+            "example_output": "{'shape': (3, 4), 'dtype': 'int16', 'itemsize': 2, 'nbytes': 24}",
+            "hint": "nbytes deve ser size multiplicado por itemsize.",
+            "starter_code": "import numpy as np\n\n",
+            "estimated_minutes": 3,
+            "difficulty": 1,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\ndados, info = solution.get('dados'), solution.get('info')\nassert dados.shape == (3, 4) and dados.dtype == np.int16\nassert info == {'shape': (3, 4), 'dtype': 'int16', 'itemsize': 2, 'nbytes': 24}"
+            }
+        },
+        {
+            "id": "numpy-shape-002",
+            "language": "python",
+            "category": "formas",
+            "title": "Reorganizar sem perder",
+            "topic": "reshape e infer\u00eancia com -1",
+            "objective": "Alterar a forma mantendo a ordem dos dados.",
+            "description": "Transforme `sequencia` em `matriz` de 3 linhas deixando o NumPy inferir o n\u00famero de colunas.",
+            "requirements": [
+                "Use reshape",
+                "Use -1 em uma dimens\u00e3o",
+                "N\u00e3o recrie os dados"
+            ],
+            "example_output": "[[ 1  2  3  4]\n [ 5  6  7  8]\n [ 9 10 11 12]]",
+            "hint": "A quantidade total de elementos deve permanecer igual.",
+            "starter_code": "import numpy as np\n\nsequencia = np.arange(1, 13)\n",
+            "estimated_minutes": 2,
+            "difficulty": 1,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nmatriz = solution.get('matriz')\nassert matriz.shape == (3, 4)\nnp.testing.assert_array_equal(matriz.ravel(), np.arange(1, 13))"
+            }
+        },
+        {
+            "id": "numpy-shape-003",
+            "language": "python",
+            "category": "formas",
+            "title": "Vista ou c\u00f3pia?",
+            "topic": "ravel, flatten e mem\u00f3ria compartilhada",
+            "objective": "Distinguir visualiza\u00e7\u00f5es de c\u00f3pias.",
+            "description": "A partir de `matriz`, crie `vista` com ravel e `copia` com flatten. Altere o primeiro item de `vista` para 99 e observe qual objeto acompanha a mudan\u00e7a.",
+            "requirements": [
+                "Use ravel e flatten",
+                "Altere somente vista",
+                "Mantenha copia independente"
+            ],
+            "example_output": "99 99 0",
+            "hint": "np.shares_memory ajuda a investigar compartilhamento.",
+            "starter_code": "import numpy as np\n\nmatriz = np.arange(6).reshape(2, 3)\n",
+            "estimated_minutes": 3,
+            "difficulty": 2,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nassert solution.get('vista')[0] == 99\nassert solution.get('matriz')[0, 0] == 99\nassert solution.get('copia')[0] == 0\nassert np.shares_memory(solution['matriz'], solution['vista'])\nassert not np.shares_memory(solution['matriz'], solution['copia'])"
+            }
+        },
+        {
+            "id": "numpy-shape-004",
+            "language": "python",
+            "category": "formas",
+            "title": "Eixos em movimento",
+            "topic": "transpose, T e swapaxes",
+            "objective": "Permutar eixos conscientemente.",
+            "description": "Crie `transposta` trocando linhas por colunas de `matriz` e `trocado` invertendo os dois primeiros eixos de `cubo`.",
+            "requirements": [
+                "Use .T ou transpose",
+                "Use swapaxes no cubo",
+                "Confira os shapes"
+            ],
+            "example_output": "(3, 2)\n(3, 2, 4)",
+            "hint": "swapaxes recebe os \u00edndices dos dois eixos.",
+            "starter_code": "import numpy as np\n\nmatriz = np.arange(6).reshape(2, 3)\ncubo = np.arange(24).reshape(2, 3, 4)\n",
+            "estimated_minutes": 3,
+            "difficulty": 2,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nnp.testing.assert_array_equal(solution.get('transposta'), solution['matriz'].T)\nnp.testing.assert_array_equal(solution.get('trocado'), np.swapaxes(solution['cubo'], 0, 1))"
+            }
+        },
+        {
+            "id": "numpy-shape-005",
+            "language": "python",
+            "category": "formas",
+            "title": "Dimens\u00f5es sob demanda",
+            "topic": "newaxis, expand_dims e squeeze",
+            "objective": "Adicionar e remover eixos de tamanho um.",
+            "description": "Converta `vetor` em `coluna` com shape (4,1), depois recupere `restaurado` com shape (4,).",
+            "requirements": [
+                "Adicione um eixo sem reshape",
+                "Use squeeze para remover o eixo",
+                "Preserve os valores"
+            ],
+            "example_output": "(4, 1)\n(4,)",
+            "hint": "np.newaxis \u00e9 um alias de None usado dentro da indexa\u00e7\u00e3o.",
+            "starter_code": "import numpy as np\n\nvetor = np.array([10, 20, 30, 40])\n",
+            "estimated_minutes": 2,
+            "difficulty": 2,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nassert solution.get('coluna').shape == (4, 1)\nassert solution.get('restaurado').shape == (4,)\nnp.testing.assert_array_equal(solution['restaurado'], solution['vetor'])"
+            }
+        },
+        {
+            "id": "numpy-indexing-001",
+            "language": "python",
+            "category": "indexa\u00e7\u00e3o",
+            "title": "Fatias s\u00e3o vistas",
+            "topic": "slicing e efeitos colaterais",
+            "objective": "Usar slicing e reconhecer mem\u00f3ria compartilhada.",
+            "description": "Extraia em `centro` o bloco central 2x2 de `grade`. Multiplique esse bloco por -1 in-place e confirme a altera\u00e7\u00e3o na grade.",
+            "requirements": [
+                "Use slicing bidimensional",
+                "Fa\u00e7a altera\u00e7\u00e3o in-place",
+                "N\u00e3o use loops"
+            ],
+            "example_output": "[[ 0  1  2  3]\n [ 4 -5 -6  7]\n [ 8 -9 -10 11]\n [12 13 14 15]]",
+            "hint": "O bloco central ocupa linhas e colunas 1:3.",
+            "starter_code": "import numpy as np\n\ngrade = np.arange(16).reshape(4, 4)\n",
+            "estimated_minutes": 3,
+            "difficulty": 2,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nnp.testing.assert_array_equal(solution.get('centro'), [[-5, -6], [-9, -10]])\nassert np.shares_memory(solution['grade'], solution['centro'])\nnp.testing.assert_array_equal(solution['grade'][1:3, 1:3], solution['centro'])"
+            }
+        },
+        {
+            "id": "numpy-indexing-002",
+            "language": "python",
+            "category": "indexa\u00e7\u00e3o",
+            "title": "Sele\u00e7\u00e3o fora de ordem",
+            "topic": "fancy indexing",
+            "objective": "Selecionar posi\u00e7\u00f5es arbitr\u00e1rias com arrays de \u00edndices.",
+            "description": "Crie `selecionados` com as posi\u00e7\u00f5es 4, 1 e 5 de `valores`, nessa ordem. Depois altere selecionados e verifique que valores n\u00e3o muda.",
+            "requirements": [
+                "Use uma lista ou array de \u00edndices",
+                "Preserve a ordem pedida",
+                "Reconhe\u00e7a que o resultado \u00e9 c\u00f3pia"
+            ],
+            "example_output": "[50 20 60]",
+            "hint": "Indexa\u00e7\u00e3o avan\u00e7ada retorna uma c\u00f3pia.",
+            "starter_code": "import numpy as np\n\nvalores = np.array([10, 20, 30, 40, 50, 60])\n",
+            "estimated_minutes": 2,
+            "difficulty": 2,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nnp.testing.assert_array_equal(solution.get('selecionados'), [50, 20, 60])\nassert not np.shares_memory(solution['valores'], solution['selecionados'])"
+            }
+        },
+        {
+            "id": "numpy-indexing-003",
+            "language": "python",
+            "category": "indexa\u00e7\u00e3o",
+            "title": "Filtro vetorizado",
+            "topic": "m\u00e1scaras booleanas",
+            "objective": "Filtrar sem escrever loops.",
+            "description": "Selecione em `aprovados` as notas maiores ou iguais a 7 e em `recuperacao` as notas entre 5 e 7, com limite superior exclusivo.",
+            "requirements": [
+                "Crie m\u00e1scaras booleanas",
+                "Combine condi\u00e7\u00f5es com &",
+                "N\u00e3o use list comprehension"
+            ],
+            "example_output": "[7.  8.5 9. ]\n[5.5 6. ]",
+            "hint": "Cada compara\u00e7\u00e3o precisa de par\u00eanteses ao usar &.",
+            "starter_code": "import numpy as np\n\nnotas = np.array([4.0, 7.0, 5.5, 8.5, 6.0, 9.0])\n",
+            "estimated_minutes": 3,
+            "difficulty": 2,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nnp.testing.assert_array_equal(solution.get('aprovados'), [7, 8.5, 9])\nnp.testing.assert_array_equal(solution.get('recuperacao'), [5.5, 6])"
+            }
+        },
+        {
+            "id": "numpy-indexing-004",
+            "language": "python",
+            "category": "indexa\u00e7\u00e3o",
+            "title": "Escolha elemento a elemento",
+            "topic": "where e clip",
+            "objective": "Aplicar regras condicionais a arrays.",
+            "description": "Limite `temperaturas` ao intervalo 0..40 em `ajustadas` e crie `rotulos` com 'alta' para valores originais acima de 30 e 'ok' nos demais.",
+            "requirements": [
+                "Use np.clip",
+                "Use np.where",
+                "Opere sobre o array inteiro"
+            ],
+            "example_output": "[ 0 18 31 40]\n['ok' 'ok' 'alta' 'alta']",
+            "hint": "where(condi\u00e7\u00e3o, valor_se_verdadeiro, valor_se_falso).",
+            "starter_code": "import numpy as np\n\ntemperaturas = np.array([-4, 18, 31, 47])\n",
+            "estimated_minutes": 2,
+            "difficulty": 2,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nnp.testing.assert_array_equal(solution.get('ajustadas'), [0, 18, 31, 40])\nnp.testing.assert_array_equal(solution.get('rotulos'), ['ok', 'ok', 'alta', 'alta'])"
+            }
+        },
+        {
+            "id": "numpy-indexing-005",
+            "language": "python",
+            "category": "indexa\u00e7\u00e3o",
+            "title": "M\u00faltiplas condi\u00e7\u00f5es",
+            "topic": "np.select",
+            "objective": "Classificar valores com v\u00e1rias regras vetorizadas.",
+            "description": "Classifique `idades` em crian\u00e7a (<12), adolescente (<18), adulto (<60) e idoso nos demais casos, salvando em `faixas`.",
+            "requirements": [
+                "Use np.select",
+                "Ordene condi\u00e7\u00f5es da mais restrita",
+                "Defina um valor default"
+            ],
+            "example_output": "['crian\u00e7a' 'adolescente' 'adulto' 'idoso']",
+            "hint": "np.select recebe uma lista de condi\u00e7\u00f5es e outra de escolhas.",
+            "starter_code": "import numpy as np\n\nidades = np.array([8, 15, 34, 72])\n",
+            "estimated_minutes": 3,
+            "difficulty": 2,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nnp.testing.assert_array_equal(solution.get('faixas'), ['crian\u00e7a', 'adolescente', 'adulto', 'idoso'])"
+            }
+        },
+        {
+            "id": "numpy-broadcasting-001",
+            "language": "python",
+            "category": "broadcasting",
+            "title": "Linha mais coluna",
+            "topic": "regras de broadcasting",
+            "objective": "Combinar shapes compat\u00edveis sem replica\u00e7\u00e3o manual.",
+            "description": "Some `linha` de shape (3,) a `coluna` de shape (2,1) e salve a matriz 2x3 em `somas`.",
+            "requirements": [
+                "Use soma direta",
+                "N\u00e3o use tile nem loops",
+                "Mantenha os shapes de origem"
+            ],
+            "example_output": "[[11 12 13]\n [21 22 23]]",
+            "hint": "As dimens\u00f5es s\u00e3o comparadas da direita para a esquerda.",
+            "starter_code": "import numpy as np\n\nlinha = np.array([1, 2, 3])\ncoluna = np.array([[10], [20]])\n",
+            "estimated_minutes": 2,
+            "difficulty": 2,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nnp.testing.assert_array_equal(solution.get('somas'), [[11, 12, 13], [21, 22, 23]])\nassert solution['linha'].shape == (3,) and solution['coluna'].shape == (2, 1)"
+            }
+        },
+        {
+            "id": "numpy-broadcasting-002",
+            "language": "python",
+            "category": "broadcasting",
+            "title": "Normaliza\u00e7\u00e3o por coluna",
+            "topic": "broadcasting com estat\u00edsticas por eixo",
+            "objective": "Centralizar colunas usando redu\u00e7\u00e3o e broadcasting.",
+            "description": "Crie `centralizada` subtraindo de cada coluna de `dados` sua pr\u00f3pria m\u00e9dia. Mantenha a dimens\u00e3o das m\u00e9dias em `medias`.",
+            "requirements": [
+                "Calcule mean no eixo 0",
+                "Use keepdims=True",
+                "N\u00e3o use loops"
+            ],
+            "example_output": "[[-3. -3. -3.]\n [ 0.  0.  0.]\n [ 3.  3.  3.]]",
+            "hint": "keepdims produz shape (1,3), compat\u00edvel com a matriz.",
+            "starter_code": "import numpy as np\n\ndados = np.array([[1., 2., 3.], [4., 5., 6.], [7., 8., 9.]])\n",
+            "estimated_minutes": 3,
+            "difficulty": 2,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nassert solution.get('medias').shape == (1, 3)\nnp.testing.assert_allclose(solution.get('centralizada').mean(axis=0), 0, atol=1e-12)\nnp.testing.assert_allclose(solution['medias'], [[4, 5, 6]])"
+            }
+        },
+        {
+            "id": "numpy-ufuncs-001",
+            "language": "python",
+            "category": "ufuncs",
+            "title": "Ufunc com destino seletivo",
+            "topic": "out e where em ufuncs",
+            "objective": "Controlar onde e em qual buffer uma ufunc escreve.",
+            "description": "Calcule em `raizes` a raiz quadrada apenas dos valores n\u00e3o negativos. Nas demais posi\u00e7\u00f5es mantenha -1, usando os par\u00e2metros out e where de np.sqrt.",
+            "requirements": [
+                "Inicialize raizes com -1",
+                "Use np.sqrt com out",
+                "Use where sem if"
+            ],
+            "example_output": "[-1.  0.  2.  3.]",
+            "hint": "O par\u00e2metro where n\u00e3o preenche automaticamente as posi\u00e7\u00f5es falsas.",
+            "starter_code": "import numpy as np\n\nvalores = np.array([-4., 0., 4., 9.])\n",
+            "estimated_minutes": 3,
+            "difficulty": 3,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nnp.testing.assert_allclose(solution.get('raizes'), [-1, 0, 2, 3])"
+            }
+        },
+        {
+            "id": "numpy-aggregation-001",
+            "language": "python",
+            "category": "agrega\u00e7\u00f5es",
+            "title": "Reduzir pelo eixo certo",
+            "topic": "sum, max e axis",
+            "objective": "Interpretar redu\u00e7\u00f5es por linha e coluna.",
+            "description": "Calcule `somas_colunas`, `maximos_linhas` e `total` da matriz dados.",
+            "requirements": [
+                "Use sum com axis=0",
+                "Use max com axis=1",
+                "Calcule tamb\u00e9m a redu\u00e7\u00e3o total"
+            ],
+            "example_output": "[12 15 18 21]\n[ 3  7 11]\n66",
+            "hint": "Remover o eixo 0 agrega as linhas e deixa uma sa\u00edda por coluna.",
+            "starter_code": "import numpy as np\n\ndados = np.arange(12).reshape(3, 4)\n",
+            "estimated_minutes": 2,
+            "difficulty": 2,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nnp.testing.assert_array_equal(solution.get('somas_colunas'), [12, 15, 18, 21])\nnp.testing.assert_array_equal(solution.get('maximos_linhas'), [3, 7, 11])\nassert solution.get('total') == 66"
+            }
+        },
+        {
+            "id": "numpy-aggregation-002",
+            "language": "python",
+            "category": "agrega\u00e7\u00f5es",
+            "title": "Onde est\u00e1 o extremo?",
+            "topic": "argmin, argmax e unravel_index",
+            "objective": "Encontrar \u00edndices de valores extremos.",
+            "description": "Encontre a coluna do maior valor de cada linha em `colunas_max` e a posi\u00e7\u00e3o (linha,coluna) do menor valor global em `posicao_min`.",
+            "requirements": [
+                "Use argmax por eixo",
+                "Use argmin global",
+                "Converta o \u00edndice plano com unravel_index"
+            ],
+            "example_output": "[1 0 2]\n(1, 2)",
+            "hint": "unravel_index precisa do shape original.",
+            "starter_code": "import numpy as np\n\ndados = np.array([[3, 9, 2], [8, 4, -1], [5, 6, 10]])\n",
+            "estimated_minutes": 3,
+            "difficulty": 2,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nnp.testing.assert_array_equal(solution.get('colunas_max'), [1, 0, 2])\nassert tuple(solution.get('posicao_min')) == (1, 2)"
+            }
+        },
+        {
+            "id": "numpy-aggregation-003",
+            "language": "python",
+            "category": "agrega\u00e7\u00f5es",
+            "title": "Dados ausentes",
+            "topic": "NaN, nanmean e nan_to_num",
+            "objective": "Calcular com aus\u00eancias expl\u00edcitas.",
+            "description": "Calcule `medias` por coluna ignorando NaN e crie `limpo` substituindo NaN pela respectiva m\u00e9dia da coluna.",
+            "requirements": [
+                "Use np.nanmean",
+                "Use broadcasting ou indexa\u00e7\u00e3o para preencher",
+                "N\u00e3o altere dados"
+            ],
+            "example_output": "[2.5 5.  4.5]\n[[1.  5.  3. ]\n [4.  5.  6. ]]",
+            "hint": "np.where com np.isnan pode combinar dados e m\u00e9dias.",
+            "starter_code": "import numpy as np\n\ndados = np.array([[1., np.nan, 3.], [4., 5., 6.]])\n",
+            "estimated_minutes": 4,
+            "difficulty": 3,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nnp.testing.assert_allclose(solution.get('medias'), [2.5, 5, 4.5])\nnp.testing.assert_allclose(solution.get('limpo'), [[1, 5, 3], [4, 5, 6]])\nassert np.isnan(solution['dados'][0, 1])"
+            }
+        },
+        {
+            "id": "numpy-combine-001",
+            "language": "python",
+            "category": "combina\u00e7\u00e3o",
+            "title": "Unir ou empilhar",
+            "topic": "concatenate, stack, vstack e hstack",
+            "objective": "Escolher entre continuar um eixo e criar um novo.",
+            "description": "Una a e b em `concatenado` com shape (6,) e empilhe ambos em `empilhado` com shape (2,3).",
+            "requirements": [
+                "Use concatenate",
+                "Use stack ou vstack",
+                "Compare os shapes"
+            ],
+            "example_output": "[1 2 3 4 5 6]\n[[1 2 3]\n [4 5 6]]",
+            "hint": "stack cria um novo eixo; concatenate usa um existente.",
+            "starter_code": "import numpy as np\n\na = np.array([1, 2, 3])\nb = np.array([4, 5, 6])\n",
+            "estimated_minutes": 2,
+            "difficulty": 2,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nnp.testing.assert_array_equal(solution.get('concatenado'), [1, 2, 3, 4, 5, 6])\nnp.testing.assert_array_equal(solution.get('empilhado'), [[1, 2, 3], [4, 5, 6]])"
+            }
+        },
+        {
+            "id": "numpy-combine-002",
+            "language": "python",
+            "category": "combina\u00e7\u00e3o",
+            "title": "Divis\u00e3o equilibrada",
+            "topic": "split e array_split",
+            "objective": "Particionar arrays e entender divis\u00f5es n\u00e3o exatas.",
+            "description": "Divida `dados` em tr\u00eas partes iguais em `iguais` e em quatro partes poss\u00edveis em `flexiveis`.",
+            "requirements": [
+                "Use np.split",
+                "Use np.array_split",
+                "Mantenha listas de arrays"
+            ],
+            "example_output": "[[0, 1, 2], [3, 4, 5], [6, 7, 8]]\n[3, 2, 2, 2]",
+            "hint": "array_split aceita tamanhos desiguais.",
+            "starter_code": "import numpy as np\n\ndados = np.arange(9)\n",
+            "estimated_minutes": 3,
+            "difficulty": 2,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nassert [x.tolist() for x in solution.get('iguais')] == [[0,1,2],[3,4,5],[6,7,8]]\nassert [len(x) for x in solution.get('flexiveis')] == [3,2,2,2]"
+            }
+        },
+        {
+            "id": "numpy-combine-003",
+            "language": "python",
+            "category": "combina\u00e7\u00e3o",
+            "title": "Repetir com inten\u00e7\u00e3o",
+            "topic": "repeat e tile",
+            "objective": "Diferenciar repeti\u00e7\u00e3o de elementos e de padr\u00f5es.",
+            "description": "Crie `repetido` repetindo cada item de base duas vezes e `mosaico` repetindo o padr\u00e3o completo tr\u00eas vezes.",
+            "requirements": [
+                "Use np.repeat",
+                "Use np.tile",
+                "Produza arrays unidimensionais"
+            ],
+            "example_output": "[1 1 2 2 3 3]\n[1 2 3 1 2 3 1 2 3]",
+            "hint": "repeat atua em elementos; tile, no bloco.",
+            "starter_code": "import numpy as np\n\nbase = np.array([1, 2, 3])\n",
+            "estimated_minutes": 2,
+            "difficulty": 1,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nnp.testing.assert_array_equal(solution.get('repetido'), [1,1,2,2,3,3])\nnp.testing.assert_array_equal(solution.get('mosaico'), [1,2,3,1,2,3,1,2,3])"
+            }
+        },
+        {
+            "id": "numpy-order-001",
+            "language": "python",
+            "category": "ordena\u00e7\u00e3o e busca",
+            "title": "Ordenar preservando a origem",
+            "topic": "sort e argsort",
+            "objective": "Ordenar valores e carregar \u00edndices associados.",
+            "description": "Calcule `ordem` que ordena pontuacoes de forma crescente e use-a para criar `nomes_ordenados` sem alterar os arrays originais.",
+            "requirements": [
+                "Use np.argsort",
+                "Indexe nomes com ordem",
+                "Preserve pontuacoes"
+            ],
+            "example_output": "['Bia' 'Dani' 'Ana' 'Caio']",
+            "hint": "argsort retorna os \u00edndices que produziriam a ordena\u00e7\u00e3o.",
+            "starter_code": "import numpy as np\n\nnomes = np.array(['Ana', 'Bia', 'Caio', 'Dani'])\npontuacoes = np.array([82, 71, 95, 78])\n",
+            "estimated_minutes": 3,
+            "difficulty": 2,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nnp.testing.assert_array_equal(solution.get('ordem'), [1,3,0,2])\nnp.testing.assert_array_equal(solution.get('nomes_ordenados'), ['Bia','Dani','Ana','Caio'])\nnp.testing.assert_array_equal(solution['pontuacoes'], [82,71,95,78])"
+            }
+        },
+        {
+            "id": "numpy-order-002",
+            "language": "python",
+            "category": "ordena\u00e7\u00e3o e busca",
+            "title": "Valores e frequ\u00eancias",
+            "topic": "unique com return_counts",
+            "objective": "Resumir categorias sem loops.",
+            "description": "Extraia em `valores` as categorias \u00fanicas ordenadas e em `contagens` suas frequ\u00eancias.",
+            "requirements": [
+                "Use np.unique",
+                "Pe\u00e7a return_counts=True",
+                "N\u00e3o use Counter"
+            ],
+            "example_output": "['azul' 'verde' 'vermelho']\n[3 2 2]",
+            "hint": "unique j\u00e1 ordena sua sa\u00edda.",
+            "starter_code": "import numpy as np\n\ncores = np.array(['azul','verde','azul','vermelho','verde','azul','vermelho'])\n",
+            "estimated_minutes": 2,
+            "difficulty": 1,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nnp.testing.assert_array_equal(solution.get('valores'), ['azul','verde','vermelho'])\nnp.testing.assert_array_equal(solution.get('contagens'), [3,2,2])"
+            }
+        },
+        {
+            "id": "numpy-order-003",
+            "language": "python",
+            "category": "ordena\u00e7\u00e3o e busca",
+            "title": "Contagem inteira eficiente",
+            "topic": "bincount e histogram",
+            "objective": "Contar inteiros n\u00e3o negativos e agrupar medidas.",
+            "description": "Crie `frequencias` para as notas inteiras 0..5 com bincount e `histograma` para duas faixas [0,3) e [3,6].",
+            "requirements": [
+                "Use minlength em bincount",
+                "Use np.histogram",
+                "Guarde tamb\u00e9m as bordas em bordas"
+            ],
+            "example_output": "[1 2 1 3 1 2]\n[4 6]\n[0 3 6]",
+            "hint": "bincount usa o pr\u00f3prio valor como \u00edndice.",
+            "starter_code": "import numpy as np\n\nnotas = np.array([0,1,1,2,3,3,3,4,5,5])\n",
+            "estimated_minutes": 3,
+            "difficulty": 2,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nnp.testing.assert_array_equal(solution.get('frequencias'), [1,2,1,3,1,2])\nnp.testing.assert_array_equal(solution.get('histograma'), [4,6])\nnp.testing.assert_array_equal(solution.get('bordas'), [0,3,6])"
+            }
+        },
+        {
+            "id": "numpy-order-004",
+            "language": "python",
+            "category": "ordena\u00e7\u00e3o e busca",
+            "title": "Coordenadas que importam",
+            "topic": "nonzero e argwhere",
+            "objective": "Localizar elementos que atendem a uma condi\u00e7\u00e3o.",
+            "description": "Encontre em `posicoes` as coordenadas (linha,coluna) dos valores maiores que 5 e em `linhas`, `colunas` os \u00edndices separados.",
+            "requirements": [
+                "Use np.argwhere",
+                "Use np.nonzero",
+                "Aplique a mesma m\u00e1scara"
+            ],
+            "example_output": "[[0 2]\n [1 1]]\n[0 1] [2 1]",
+            "hint": "argwhere empilha coordenadas; nonzero retorna uma tupla por eixo.",
+            "starter_code": "import numpy as np\n\ndados = np.array([[1, 4, 8], [3, 7, 2]])\n",
+            "estimated_minutes": 3,
+            "difficulty": 2,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nnp.testing.assert_array_equal(solution.get('posicoes'), [[0,2],[1,1]])\nnp.testing.assert_array_equal(solution.get('linhas'), [0,1])\nnp.testing.assert_array_equal(solution.get('colunas'), [2,1])"
+            }
+        },
+        {
+            "id": "numpy-linalg-001",
+            "language": "python",
+            "category": "\u00e1lgebra linear",
+            "title": "Produto certo para cada caso",
+            "topic": "dot, @ e matmul",
+            "objective": "Distinguir produto escalar e matricial.",
+            "description": "Calcule `produto_escalar` entre u e v e `produto_matricial` entre A e B usando o operador @.",
+            "requirements": [
+                "Use np.dot para vetores",
+                "Use @ para matrizes",
+                "N\u00e3o use multiplica\u00e7\u00e3o elemento a elemento"
+            ],
+            "example_output": "32\n[[19 22]\n [43 50]]",
+            "hint": "O n\u00famero de colunas da esquerda deve coincidir com o de linhas da direita.",
+            "starter_code": "import numpy as np\n\nu = np.array([1, 2, 3])\nv = np.array([4, 5, 6])\nA = np.array([[1, 2], [3, 4]])\nB = np.array([[5, 6], [7, 8]])\n",
+            "estimated_minutes": 3,
+            "difficulty": 2,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nassert solution.get('produto_escalar') == 32\nnp.testing.assert_array_equal(solution.get('produto_matricial'), [[19,22],[43,50]])"
+            }
+        },
+        {
+            "id": "numpy-linalg-002",
+            "language": "python",
+            "category": "\u00e1lgebra linear",
+            "title": "Resolver sem inverter",
+            "topic": "linalg.solve",
+            "objective": "Resolver sistemas lineares numericamente.",
+            "description": "Resolva Ax=b em `solucao` com np.linalg.solve e confirme em `residuo` que A @ solucao - b fica pr\u00f3ximo de zero.",
+            "requirements": [
+                "Use np.linalg.solve",
+                "N\u00e3o calcule a inversa",
+                "Calcule o res\u00edduo"
+            ],
+            "example_output": "[2. 3.]\n[0. 0.]",
+            "hint": "Resolver diretamente \u00e9 mais est\u00e1vel e eficiente do que inv(A) @ b.",
+            "starter_code": "import numpy as np\n\nA = np.array([[3., 1.], [1., 2.]])\nb = np.array([9., 8.])\n",
+            "estimated_minutes": 3,
+            "difficulty": 3,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nnp.testing.assert_allclose(solution.get('solucao'), [2,3])\nnp.testing.assert_allclose(solution.get('residuo'), [0,0], atol=1e-12)"
+            }
+        },
+        {
+            "id": "numpy-linalg-003",
+            "language": "python",
+            "category": "\u00e1lgebra linear",
+            "title": "Dist\u00e2ncias por norma",
+            "topic": "linalg.norm e axis",
+            "objective": "Calcular normas de v\u00e1rias observa\u00e7\u00f5es de uma vez.",
+            "description": "Calcule em `normas` a norma euclidiana de cada linha de pontos e em `distancias` a dist\u00e2ncia de cada ponto at\u00e9 referencia.",
+            "requirements": [
+                "Use np.linalg.norm",
+                "Reduza axis=1",
+                "Aplique broadcasting na subtra\u00e7\u00e3o"
+            ],
+            "example_output": "[ 5. 13.  0.]\n[ 0.         10.77032961  5.        ]",
+            "hint": "Cada linha representa um ponto 2D.",
+            "starter_code": "import numpy as np\n\npontos = np.array([[3.,4.], [5.,12.], [0.,0.]])\nreferencia = np.array([3.,4.])\n",
+            "estimated_minutes": 3,
+            "difficulty": 2,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nnp.testing.assert_allclose(solution.get('normas'), [5,13,0])\nnp.testing.assert_allclose(solution.get('distancias'), [0, np.sqrt(116), 5])"
+            }
+        },
+        {
+            "id": "numpy-random-001",
+            "language": "python",
+            "category": "aleatoriedade",
+            "title": "Aleat\u00f3rio reproduz\u00edvel",
+            "topic": "default_rng e seed",
+            "objective": "Gerar amostras reproduz\u00edveis com a API moderna.",
+            "description": "Crie `rng` com seed 42 e gere em `amostra` uma matriz 2x3 de inteiros entre 1 e 9 inclusive.",
+            "requirements": [
+                "Use np.random.default_rng",
+                "Passe seed 42",
+                "Use rng.integers com size"
+            ],
+            "example_output": "[[1 7 6]\n [4 4 8]]",
+            "hint": "O limite superior de integers \u00e9 exclusivo.",
+            "starter_code": "import numpy as np\n\n",
+            "estimated_minutes": 2,
+            "difficulty": 1,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nexpected = np.random.default_rng(42).integers(1, 10, size=(2,3))\nnp.testing.assert_array_equal(solution.get('amostra'), expected)"
+            }
+        },
+        {
+            "id": "numpy-random-002",
+            "language": "python",
+            "category": "aleatoriedade",
+            "title": "Distribui\u00e7\u00e3o em escala",
+            "topic": "normal e estat\u00edsticas amostrais",
+            "objective": "Amostrar uma distribui\u00e7\u00e3o e resumir o resultado.",
+            "description": "Com rng de seed 7, gere `dados` com 10.000 valores normais de m\u00e9dia 100 e desvio 15. Calcule `media` e `desvio`.",
+            "requirements": [
+                "Use rng.normal",
+                "Gere de uma vez",
+                "Use mean e std"
+            ],
+            "example_output": "aproximadamente 100\naproximadamente 15",
+            "hint": "Amostras grandes aproximam os par\u00e2metros, mas n\u00e3o s\u00e3o id\u00eanticas a eles.",
+            "starter_code": "import numpy as np\n\nrng = np.random.default_rng(7)\n",
+            "estimated_minutes": 3,
+            "difficulty": 2,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\ndados = solution.get('dados')\nassert dados.shape == (10000,)\nassert abs(solution.get('media') - 100) < 1\nassert abs(solution.get('desvio') - 15) < 1\nnp.testing.assert_allclose(dados[:5], np.random.default_rng(7).normal(100,15,10000)[:5])"
+            }
+        },
+        {
+            "id": "numpy-random-003",
+            "language": "python",
+            "category": "aleatoriedade",
+            "title": "Amostra sem reposi\u00e7\u00e3o",
+            "topic": "choice e permutation",
+            "objective": "Sortear e embaralhar sem modificar a origem.",
+            "description": "Com seed 21, escolha em `sorteio` tr\u00eas nomes distintos sem reposi\u00e7\u00e3o e crie `embaralhado` como uma permuta\u00e7\u00e3o de todos os nomes.",
+            "requirements": [
+                "Use rng.choice com replace=False",
+                "Use rng.permutation",
+                "Preserve nomes"
+            ],
+            "example_output": "tr\u00eas nomes distintos\nos cinco nomes em nova ordem",
+            "hint": "Use o mesmo gerador nas duas opera\u00e7\u00f5es para uma sequ\u00eancia determin\u00edstica.",
+            "starter_code": "import numpy as np\n\nnomes = np.array(['Ana','Bia','Caio','Davi','Eva'])\nrng = np.random.default_rng(21)\n",
+            "estimated_minutes": 3,
+            "difficulty": 2,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nexpected_rng = np.random.default_rng(21)\nexpected_choice = expected_rng.choice(solution['nomes'], 3, replace=False)\nexpected_perm = expected_rng.permutation(solution['nomes'])\nnp.testing.assert_array_equal(solution.get('sorteio'), expected_choice)\nnp.testing.assert_array_equal(solution.get('embaralhado'), expected_perm)\nassert len(np.unique(solution['sorteio'])) == 3"
+            }
+        },
+        {
+            "id": "numpy-io-001",
+            "language": "python",
+            "category": "entrada e sa\u00edda",
+            "title": "Pacote bin\u00e1rio de arrays",
+            "topic": "savez e load",
+            "objective": "Persistir m\u00faltiplos arrays preservando tipos e shapes.",
+            "description": "Salve a e b em `dados.npz` com nomes expl\u00edcitos, carregue o arquivo e copie seus arrays para `carregado_a` e `carregado_b`.",
+            "requirements": [
+                "Use np.savez",
+                "Use np.load",
+                "Acesse pelas chaves a e b"
+            ],
+            "example_output": "[1 2 3]\n[[1. 0.]\n [0. 1.]]",
+            "hint": "Use um bloco with ao abrir o NpzFile.",
+            "starter_code": "import numpy as np\n\na = np.array([1, 2, 3])\nb = np.eye(2)\n",
+            "estimated_minutes": 4,
+            "difficulty": 2,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nnp.testing.assert_array_equal(solution.get('carregado_a'), [1,2,3])\nnp.testing.assert_array_equal(solution.get('carregado_b'), np.eye(2))"
+            }
+        },
+        {
+            "id": "numpy-io-002",
+            "language": "python",
+            "category": "entrada e sa\u00edda",
+            "title": "Texto interoper\u00e1vel",
+            "topic": "savetxt e loadtxt",
+            "objective": "Trocar matrizes num\u00e9ricas em formato textual.",
+            "description": "Salve dados em `dados.csv` com v\u00edrgula e duas casas decimais; carregue de volta em `carregado`.",
+            "requirements": [
+                "Use np.savetxt com delimiter",
+                "Defina fmt='%.2f'",
+                "Use np.loadtxt"
+            ],
+            "example_output": "1.25,2.50\n3.75,4.00",
+            "hint": "Passe o mesmo delimitador na leitura.",
+            "starter_code": "import numpy as np\n\ndados = np.array([[1.25, 2.5], [3.75, 4.]])\n",
+            "estimated_minutes": 3,
+            "difficulty": 2,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nnp.testing.assert_allclose(solution.get('carregado'), solution['dados'])\nwith open('dados.csv', encoding='utf-8') as f:\n    texto = f.read()\nassert '1.25,2.50' in texto"
+            }
+        },
+        {
+            "id": "numpy-vectorization-001",
+            "language": "python",
+            "category": "vetoriza\u00e7\u00e3o",
+            "title": "Convers\u00e3o sem loop",
+            "topic": "opera\u00e7\u00f5es vetorizadas",
+            "objective": "Substituir itera\u00e7\u00e3o Python por c\u00e1lculo em bloco.",
+            "description": "Converta todas as temperaturas Celsius para Fahrenheit em `fahrenheit` com uma \u00fanica express\u00e3o vetorizada.",
+            "requirements": [
+                "Use a f\u00f3rmula C*9/5+32",
+                "N\u00e3o use for nem comprehension",
+                "Preserve celsius"
+            ],
+            "example_output": "[ 32.  50.  68.  86. 104.]",
+            "hint": "Operadores aritm\u00e9ticos s\u00e3o aplicados elemento a elemento.",
+            "starter_code": "import numpy as np\n\ncelsius = np.array([0., 10., 20., 30., 40.])\n",
+            "estimated_minutes": 2,
+            "difficulty": 1,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nnp.testing.assert_allclose(solution.get('fahrenheit'), [32,50,68,86,104])"
+            }
+        },
+        {
+            "id": "numpy-vectorization-002",
+            "language": "python",
+            "category": "vetoriza\u00e7\u00e3o",
+            "title": "Todas as dist\u00e2ncias de uma vez",
+            "topic": "broadcasting em tr\u00eas dimens\u00f5es",
+            "objective": "Calcular uma matriz de dist\u00e2ncias sem loops.",
+            "description": "Calcule em `distancias` todas as dist\u00e2ncias euclidianas entre cada linha de A e cada linha de B. A sa\u00edda deve ter shape (3,2).",
+            "requirements": [
+                "Crie diferen\u00e7as com novos eixos",
+                "Use norm no \u00faltimo eixo",
+                "N\u00e3o use loops"
+            ],
+            "example_output": "[[1.         2.23606798]\n [1.         1.        ]\n [2.23606798 1.        ]]",
+            "hint": "A[:, None, :] - B[None, :, :] produz shape (3,2,2).",
+            "starter_code": "import numpy as np\n\nA = np.array([[0.,0.], [1.,0.], [0.,2.]])\nB = np.array([[0.,1.], [1.,2.]])\n",
+            "estimated_minutes": 4,
+            "difficulty": 3,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nexpected = np.array([[1,np.sqrt(5)],[1,1],[np.sqrt(5),1]])\nnp.testing.assert_allclose(solution.get('distancias'), expected)\nassert solution['distancias'].shape == (3,2)"
+            }
+        },
+        {
+            "id": "numpy-grids-001",
+            "language": "python",
+            "category": "grades",
+            "title": "Fun\u00e7\u00e3o sobre uma grade",
+            "topic": "meshgrid",
+            "objective": "Construir coordenadas para avaliar superf\u00edcies.",
+            "description": "Crie X e Y com meshgrid de x=[-1,0,1] e y=[-2,0,2], depois calcule `Z = X**2 + Y**2`.",
+            "requirements": [
+                "Use np.meshgrid",
+                "Mantenha X, Y e Z",
+                "N\u00e3o use loops"
+            ],
+            "example_output": "[[5 4 5]\n [1 0 1]\n [5 4 5]]",
+            "hint": "Com o indexing padr\u00e3o, cada linha de X repete x.",
+            "starter_code": "import numpy as np\n\nx = np.array([-1, 0, 1])\ny = np.array([-2, 0, 2])\n",
+            "estimated_minutes": 3,
+            "difficulty": 2,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nnp.testing.assert_array_equal(solution.get('Z'), [[5,4,5],[1,0,1],[5,4,5]])\nassert solution.get('X').shape == (3,3) and solution.get('Y').shape == (3,3)"
+            }
+        },
+        {
+            "id": "numpy-advanced-001",
+            "language": "python",
+            "category": "avan\u00e7ado",
+            "title": "Einstein em uma linha",
+            "topic": "einsum",
+            "objective": "Expressar produtos e tra\u00e7os por \u00edndices.",
+            "description": "Use np.einsum para calcular `produto` matricial de A e B e `diagonal` contendo os elementos diagonais de A.",
+            "requirements": [
+                "Use 'ij,jk->ik' no produto",
+                "Use 'ii->i' na diagonal",
+                "N\u00e3o use @ nem np.diag"
+            ],
+            "example_output": "[[ 4  5]\n [10 11]]\n[1 4]",
+            "hint": "Letras repetidas indicam eixos contra\u00eddos ou diagonais.",
+            "starter_code": "import numpy as np\n\nA = np.array([[1,2],[3,4]])\nB = np.array([[2,1],[1,2]])\n",
+            "estimated_minutes": 4,
+            "difficulty": 3,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nnp.testing.assert_array_equal(solution.get('produto'), [[4,5],[10,11]])\nnp.testing.assert_array_equal(solution.get('diagonal'), [1,4])"
+            }
+        },
+        {
+            "id": "numpy-advanced-002",
+            "language": "python",
+            "category": "avan\u00e7ado",
+            "title": "Janelas deslizantes",
+            "topic": "sliding_window_view",
+            "objective": "Criar janelas sobrepostas sem c\u00f3pias manuais.",
+            "description": "Crie `janelas` de tamanho 3 sobre serie e calcule `media_movel` para cada janela.",
+            "requirements": [
+                "Use sliding_window_view",
+                "Use mean por eixo",
+                "N\u00e3o use loops"
+            ],
+            "example_output": "[[1. 2. 3.]\n [2. 3. 4.]\n [3. 4. 5.]\n [4. 5. 6.]]\n[2. 3. 4. 5.]",
+            "hint": "A fun\u00e7\u00e3o est\u00e1 em np.lib.stride_tricks.",
+            "starter_code": "import numpy as np\nfrom numpy.lib.stride_tricks import sliding_window_view\n\nserie = np.arange(1., 7.)\n",
+            "estimated_minutes": 4,
+            "difficulty": 3,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nnp.testing.assert_array_equal(solution.get('janelas'), [[1,2,3],[2,3,4],[3,4,5],[4,5,6]])\nnp.testing.assert_allclose(solution.get('media_movel'), [2,3,4,5])"
+            }
+        },
+        {
+            "id": "numpy-applied-001",
+            "language": "python",
+            "category": "aplica\u00e7\u00f5es",
+            "title": "One-hot encoding",
+            "topic": "indexa\u00e7\u00e3o avan\u00e7ada aplicada",
+            "objective": "Transformar r\u00f3tulos inteiros em indicadores.",
+            "description": "Converta rotulos em uma matriz `one_hot` de 4 linhas e 3 classes usando indexa\u00e7\u00e3o NumPy.",
+            "requirements": [
+                "Comece com zeros",
+                "Use \u00edndices de linha e rotulos",
+                "N\u00e3o use loops"
+            ],
+            "example_output": "[[1 0 0]\n [0 0 1]\n [0 1 0]\n [0 0 1]]",
+            "hint": "one_hot[np.arange(n), rotulos] = 1.",
+            "starter_code": "import numpy as np\n\nrotulos = np.array([0, 2, 1, 2])\nnumero_classes = 3\n",
+            "estimated_minutes": 3,
+            "difficulty": 2,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nnp.testing.assert_array_equal(solution.get('one_hot'), [[1,0,0],[0,0,1],[0,1,0],[0,0,1]])\nassert solution['one_hot'].shape == (4,3)"
+            }
+        },
+        {
+            "id": "numpy-applied-002",
+            "language": "python",
+            "category": "aplica\u00e7\u00f5es",
+            "title": "Padroniza\u00e7\u00e3o robusta",
+            "topic": "z-score por coluna",
+            "objective": "Preparar features para modelagem.",
+            "description": "Padronize cada coluna de X em `padronizado` usando m\u00e9dia e desvio populacional. Proteja colunas constantes substituindo desvio zero por 1 em `escala`.",
+            "requirements": [
+                "Calcule m\u00e9dia e std por coluna",
+                "Use np.where para escala segura",
+                "N\u00e3o gere NaN nem infinito"
+            ],
+            "example_output": "colunas com m\u00e9dia 0\ncolunas vari\u00e1veis com desvio 1",
+            "hint": "Uma coluna constante deve virar zeros.",
+            "starter_code": "import numpy as np\n\nX = np.array([[1.,10.,5.],[2.,10.,7.],[3.,10.,9.]])\n",
+            "estimated_minutes": 4,
+            "difficulty": 3,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nP = solution.get('padronizado')\nnp.testing.assert_allclose(P.mean(axis=0), [0,0,0], atol=1e-12)\nnp.testing.assert_allclose(P[:,[0,2]].std(axis=0), [1,1])\nnp.testing.assert_array_equal(P[:,1], [0,0,0])\nnp.testing.assert_array_equal(solution.get('escala')[1], 1)\nassert np.isfinite(P).all()"
+            }
+        },
+        {
+            "id": "numpy-applied-003",
+            "language": "python",
+            "category": "aplica\u00e7\u00f5es",
+            "title": "Matriz de confus\u00e3o",
+            "topic": "np.add.at",
+            "objective": "Acumular pares de classes de forma vetorizada.",
+            "description": "Monte `matriz_confusao` 3x3 onde linhas s\u00e3o classes reais e colunas s\u00e3o classes previstas, acumulando cada par.",
+            "requirements": [
+                "Inicialize matriz inteira com zeros",
+                "Use np.add.at",
+                "N\u00e3o use loops"
+            ],
+            "example_output": "[[2 0 0]\n [0 1 1]\n [0 1 2]]",
+            "hint": "np.add.at(matriz, (reais, previstas), 1) trata \u00edndices repetidos corretamente.",
+            "starter_code": "import numpy as np\n\nreais = np.array([0,1,2,2,1,0,2])\nprevistas = np.array([0,2,2,1,1,0,2])\nnumero_classes = 3\n",
+            "estimated_minutes": 4,
+            "difficulty": 3,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nnp.testing.assert_array_equal(solution.get('matriz_confusao'), [[2,0,0],[0,1,1],[0,1,2]])"
+            }
+        },
+        {
+            "id": "numpy-applied-004",
+            "language": "python",
+            "category": "aplica\u00e7\u00f5es",
+            "title": "Mini-batches",
+            "topic": "permutation, indexa\u00e7\u00e3o e reshape",
+            "objective": "Preparar lotes embaralhados para treinamento.",
+            "description": "Com seed 5, crie `indices` como permuta\u00e7\u00e3o das oito linhas de X, produza `embaralhado = X[indices]` e reorganize em `lotes` com shape (4,2,2).",
+            "requirements": [
+                "Use default_rng e permutation",
+                "Use fancy indexing",
+                "Use reshape para os lotes"
+            ],
+            "example_output": "shape: (4, 2, 2)\ncada amostra aparece uma vez",
+            "hint": "Quatro lotes, duas amostras por lote, duas features por amostra.",
+            "starter_code": "import numpy as np\n\nX = np.arange(16).reshape(8, 2)\nrng = np.random.default_rng(5)\n",
+            "estimated_minutes": 4,
+            "difficulty": 3,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nexpected = np.random.default_rng(5).permutation(8)\nnp.testing.assert_array_equal(solution.get('indices'), expected)\nnp.testing.assert_array_equal(solution.get('embaralhado'), solution['X'][expected])\nassert solution.get('lotes').shape == (4,2,2)\nnp.testing.assert_array_equal(solution['lotes'].reshape(8,2), solution['embaralhado'])"
+            }
+        },
+        {
+            "id": "numpy-applied-005",
+            "language": "python",
+            "category": "aplica\u00e7\u00f5es",
+            "title": "Pipeline de sensores",
+            "topic": "limpeza, clipping e resumo por grupo",
+            "objective": "Combinar t\u00e9cnicas NumPy em um fluxo real.",
+            "description": "Em `limpo`, substitua NaN pela mediana da respectiva coluna e limite valores ao intervalo [0,100]. Depois calcule `resumo` com a m\u00e9dia de cada coluna para cada grupo 0 e 1, resultando em shape (2,3).",
+            "requirements": [
+                "Use nanmedian por coluna",
+                "Use where e clip",
+                "Resuma grupos sem loops Python"
+            ],
+            "example_output": "[[10.  20.  30. ]\n [32.5 42.5 70. ]]",
+            "hint": "Uma solu\u00e7\u00e3o vetorizada para grupos \u00e9 empilhar m\u00e9dias calculadas com m\u00e1scaras.",
+            "starter_code": "import numpy as np\n\ndados = np.array([[10.,20.,30.],[40.,np.nan,120.],[np.nan,50.,40.]])\ngrupos = np.array([0,1,1])\n",
+            "estimated_minutes": 5,
+            "difficulty": 3,
+            "validator": {
+                "type": "python_tests",
+                "test_code": "import numpy as np\nnp.testing.assert_allclose(solution.get('limpo'), [[10,20,30],[40,35,100],[25,50,40]])\nnp.testing.assert_allclose(solution.get('resumo'), [[10,20,30],[32.5,42.5,70]])\nassert solution['resumo'].shape == (2,3) and np.isfinite(solution['limpo']).all()"
+            }
+        }
+    ]
+}

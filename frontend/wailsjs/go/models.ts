@@ -28,6 +28,27 @@ export namespace execution {
 }
 
 export namespace main {
+
+	export class TrackView {
+	    id: string;
+	    title: string;
+	    description: string;
+	    exerciseCount: number;
+	    estimatedMinutes: number;
+
+	    static createFrom(source: any = {}) {
+	        return new TrackView(source);
+	    }
+
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.id = source["id"];
+	        this.title = source["title"];
+	        this.description = source["description"];
+	        this.exerciseCount = source["exerciseCount"];
+	        this.estimatedMinutes = source["estimatedMinutes"];
+	    }
+	}
 	
 	export class ExerciseView {
 	    id: string;
@@ -82,6 +103,7 @@ export namespace main {
 	    status: string;
 	    statuses: Record<string, string>;
 	    locale: string;
+	    availableTracks: TrackView[];
 	
 	    static createFrom(source: any = {}) {
 	        return new StateView(source);
@@ -103,6 +125,7 @@ export namespace main {
 	        this.status = source["status"];
 	        this.statuses = source["statuses"];
 	        this.locale = source["locale"];
+	        this.availableTracks = this.convertValues(source["availableTracks"], TrackView);
 	    }
 	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {
@@ -125,4 +148,3 @@ export namespace main {
 	}
 
 }
-

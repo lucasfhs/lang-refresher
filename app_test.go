@@ -30,3 +30,9 @@ func TestResolveLocalePrefersSavedChoice(t *testing.T) {
 		t.Fatalf("localidade do sistema deveria ser detectada, recebeu %q", locale)
 	}
 }
+
+func TestResolveLocaleUsesSystemWhenOnlyTrackWasSaved(t *testing.T) {
+	if locale := resolveLocale("pt-BR", settings.State{TrackID: "numpy-refresher"}, true); locale != "pt-BR" {
+		t.Fatalf("idioma do sistema deveria ser usado, recebeu %q", locale)
+	}
+}

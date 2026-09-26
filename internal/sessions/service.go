@@ -39,6 +39,21 @@ func (s *Service) CurrentExercise() exercises.Exercise {
 	return s.track.Exercises[s.state.CurrentIndex]
 }
 
+func (s *Service) SwitchTrack(track exercises.Track) error {
+	state, err := s.store.Load(track.ID)
+	if err != nil {
+		return err
+	}
+	if state.CurrentIndex < 0 || state.CurrentIndex >= len(track.Exercises) {
+		state.CurrentIndex = 0
+	}
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	s.track = track
+	s.state = state
+	return nil
+}
+
 func (s *Service) SaveDraft(id, code string) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()

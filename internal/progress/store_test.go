@@ -42,3 +42,35 @@ func TestStoreStartsFreshForAnotherTrack(t *testing.T) {
 		t.Fatalf("esperava novo estado, recebeu %#v", other)
 	}
 }
+
+func TestStoreKeepsProgressForMultipleTracks(t *testing.T) {
+	store := NewStore(filepath.Join(t.TempDir(), "progress.json"))
+	python, _ := store.Load("python")
+	python.CurrentIndex = 7
+	python.Drafts["py-1"] = "python draft"
+	if err := store.Save(python); err != nil {
+		t.Fatal(err)
+	}
+
+	numpy, _ := store.Load("numpy")
+	numpy.CurrentIndex = 3
+	numpy.Drafts["np-1"] = "numpy draft"
+	if err := store.Save(numpy); err != nil {
+		t.Fatal(err)
+	}
+
+	loadedPython, err := store.Load("python")
+	if err != nil {
+		t.Fatal(err)
+	}
+	loadedNumPy, err := store.Load("numpy")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if loadedPython.CurrentIndex != 7 || loadedPython.Drafts["py-1"] != "python draft" {
+		t.Fatalf("progresso Python foi perdido: %#v", loadedPython)
+	}
+	if loadedNumPy.CurrentIndex != 3 || loadedNumPy.Drafts["np-1"] != "numpy draft" {
+		t.Fatalf("progresso NumPy foi perdido: %#v", loadedNumPy)
+	}
+}
